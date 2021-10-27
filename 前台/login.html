@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <!-- basic -->
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <!-- mobile metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <!-- site metas -->
+   <title>公寓登录中心</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <!-- site icon -->
+   <link rel="icon" href="images/fevicon.png" type="image/png" />
+   <!-- bootstrap css -->
+   <link rel="stylesheet" href="css/bootstrap.min.css" />
+   <!-- site css -->
+   <link rel="stylesheet" href="style.css" />
+   <!-- responsive css -->
+   <link rel="stylesheet" href="css/responsive.css" />
+   <!-- color css -->
+   <link rel="stylesheet" href="css/colors.css" />
+   <!-- select bootstrap -->
+   <link rel="stylesheet" href="css/bootstrap-select.css" />
+   <!-- scrollbar css -->
+   <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+   <!-- custom css -->
+   <link rel="stylesheet" href="css/custom.css" />
+   <!-- calendar file css -->
+   <link rel="stylesheet" href="js/semantic.min.css" />
+</head>
+
+<body class="inner_page login">
+   <div class="full_container">
+      <div class="container">
+         <div class="center verticle_center full_height">
+            <div class="login_section">
+               <div class="logo_login">
+                  <div class="center">
+                     <img width="210" src="images/logo/logo.png" alt="#" />
+                  </div>
+               </div>
+               <div class="login_form">
+                  <form action="" method="post" id="login_table">
+                     <fieldset>
+                        <div class="field">
+                           <label class="label_field">电话号码：</label>
+                           <input type="phoneNo" name="email" placeholder="电话号码" />
+                        </div>
+                        <div class="field">
+                           <label class="label_field">密码：</label>
+                           <input type="password" name="password" placeholder="密码" />
+                        </div>
+                        <div class="field">
+                        </div>
+                        <div class="field">
+                           <label class="label_field hidden">hidden label</label>
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="identity" value="user"
+                                 checked>住户登录</label>
+                           <label class="label_field hidden">hidden label</label>
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="isMember">记住账号</label>
+                           <label class="label_field hidden">hidden label</label>
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="identity" value="family">家属登录</label>
+                           <a class="forgot" href="regist.html" style="margin-right: 87px;">注册账号</a>
+                        </div>
+                        <div class="field margin_0">
+                           <label class="label_field hidden">hidden label</label>
+                           <button class="main_bt" type="button" id="submit_btn">登录</button>
+                        </div>
+                     </fieldset>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- jQuery -->
+   <script src="js/jquery.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <!-- wow animation -->
+   <script src="js/animate.js"></script>
+   <!-- select country -->
+   <script src="js/bootstrap-select.js"></script>
+   <!-- nice scrollbar -->
+   <script src="js/perfect-scrollbar.min.js"></script>
+   <script>
+      var ps = new PerfectScrollbar('#sidebar');
+   </script>
+   <!-- custom js -->
+   <script src="js/custom.js"></script>
+   <script src="js/conf.js"></script>
+   <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+   <script>
+      $("#submit_btn").click(function () {
+         $.ajax({
+            type: "post", //提交的方法
+            url: ip + "/user/login", //提交的地址
+            data: $('#login_table').serialize(), // 序列化表单值
+            async: false,
+            dataType: "json",
+            error: function (request) { //失败的话
+               alert("请求失败，请稍后重试");
+            },
+            success: function (data) { //成功
+               if (data.statusCode != 200) {
+                  alert(data.desc)
+               } else {
+                  window.location.href = "/index.html"
+               }
+            }
+         });
+      });
+   </script>
+</body>
+
+</html>
