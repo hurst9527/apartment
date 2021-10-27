@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <!-- basic -->
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <!-- mobile metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <!-- site metas -->
+   <title>账号注册</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <!-- site icon -->
+   <link rel="icon" href="images/fevicon.png" type="image/png" />
+   <!-- bootstrap css -->
+   <link rel="stylesheet" href="css/bootstrap.min.css" />
+   <!-- site css -->
+   <link rel="stylesheet" href="style.css" />
+   <!-- responsive css -->
+   <link rel="stylesheet" href="css/responsive.css" />
+   <!-- color css -->
+   <link rel="stylesheet" href="css/colors.css" />
+   <!-- select bootstrap -->
+   <link rel="stylesheet" href="css/bootstrap-select.css" />
+   <!-- scrollbar css -->
+   <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+   <!-- custom css -->
+   <link rel="stylesheet" href="css/custom.css" />
+   <!-- calendar file css -->
+   <link rel="stylesheet" href="js/semantic.min.css" />
+   <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+</head>
+
+<body class="inner_page login">
+   <div class="full_container">
+      <div class="container">
+         <div class="center verticle_center full_height">
+            <div class="login_section">
+               <div class="logo_login">
+                  <div class="center">
+                     <img width="210" src="images/logo/logo.png" alt="#" />
+                  </div>
+               </div>
+               <div class="login_form">
+                  <form id="formData" id="login_table">
+                     <fieldset>
+                        <div class="field">
+                           <label class="label_field">姓名：</label>
+                           <input type="name" name="name" placeholder="以身份证为准" />
+                        </div>
+
+                        <div class="field">
+                           <label class="label_field">电话号码：</label>
+                           <input type="phoneNo" name="phoneNo" placeholder="用于登录系统" id="input_phoneNo"
+                              autocomplete="off" />
+                        </div>
+                        <div class="field">
+                           <label class="label_field">密码：</label>
+                           <input type="password" name="password" placeholder="密码" autocomplete="off" />
+                        </div>
+                        <div class="field">
+                           <label class="label_field">其他注意事项：</label>
+                           <input type="otherDesc" name="otherDesc" placeholder="（选填）如特殊疾病、生活习惯等" />
+                        </div>
+                        <div class="field margin_0">
+                           <label class="label_field hidden">hidden label</label>
+                           <button class="main_bt disabled" type="button" id="submit_btn">注册</button>
+                           <span style="margin-left: 15px;color: red;font-weight: 20px; " id="tishi_span"></span>
+                           <a class="forgot disabled" href="login.html">已有账号，去登录</a>
+                        </div>
+                        <div class="field margin_0">
+                        </div>
+
+                     </fieldset>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- jQuery -->
+   <script src="js/jquery.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <!-- wow animation -->
+   <script src="js/animate.js"></script>
+   <!-- select country -->
+   <script src="js/bootstrap-select.js"></script>
+   <!-- nice scrollbar -->
+   <script src="js/perfect-scrollbar.min.js"></script>
+   <script>
+      var ps = new PerfectScrollbar('#sidebar');
+   </script>
+   <!-- custom js -->
+   <script src="js/custom.js"></script>
+   <script src="js/conf.js"></script>
+   <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+   <script>
+      function test_() {
+         var theinput = document.getElementById("input_phoneNo").value;
+         var p1 = /^(13[0-9]\d{8}|15[0-35-9]\d{8}|18[0-9]\{8}|14[57]\d{8})$/;
+         //(p1.test(theinput));
+         if (p1.test(theinput) == false) {
+            alert('请填写正确电话号码!!');
+            // document.getElementById("input_phoneNo").value = "";
+            return false;
+         } else return true;
+      }
+
+
+      $("#input_phoneNo").change(function () {
+         // alert(test_());
+         var flag = test_();
+         if (flag == true) {
+            $.ajax({
+               type: "get", //提交的方法
+               url: ip + "/user/phoneQuery", //提交的地址
+               data: {
+                  "phoneNo": $("#input_phoneNo").val(),
+               }, // 序列化表单值
+               async: true,
+               dataType: "json",
+               error: function (request) { //失败的话
+                  alert("请求失败，请稍后重试");
+               },
+               success: function (data) { //成功
+                  if (data.statusCode != 200) {
+                     // alert(data.desc);
+                     $("#submit_btn").text(data.desc);
+                  } else(
+                     $("#submit_btn").text("注册")
+                  )
+               }
+            });
+         }
+      });
+   </script>
+
+</body>
+
+</html>
