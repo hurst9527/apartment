@@ -1,0 +1,21 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: good
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://121.196.146.187:3306/apartment_goods?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT&useSSL=false&wait_timeout=86400
+    username: hxj
+    password: HXJ010425.
+server:
+  port: 18083
+feign:
+  hystrix:
+    enabled: true

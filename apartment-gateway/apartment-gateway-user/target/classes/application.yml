@@ -1,0 +1,59 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: user-gateway
+  cloud:
+    #    gateway配置
+    gateway:
+#      globalcors: #    全局配置
+#        cors-configurations:
+#          '[/**]': # 匹配所有请求
+#            allowedOrigins: "*" #跨域处理 允许所有的域
+#            allowedHeaders: "*"
+#            allowedMethods: "*"
+#      default-filters:
+#        - DedupeResponseHeader=Vary Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+      routes:
+
+        - id: apartment_good_route
+          uri: http://localhost:18083
+          predicates:
+            - Path=/good/**
+
+        - id: apartment_order_route
+          uri: http://localhost:18084
+          predicates:
+            - Path=/order/**
+
+        - id: apartment_require_route
+          uri: http://localhost:18085
+          predicates:
+            - Path=/require/**
+
+        - id: apartment_room_route
+          uri: http://localhost:18086
+          predicates:
+            - Path=/room/**
+
+        - id: apartment_user_route   # 唯一标识符,可以任意选取
+          #  指定路由网址
+          uri: http://localhost:18087
+          predicates:
+            # 所有以/brand开头的请求都将路由到http://localhost:18087
+            # 例如  localhost:8001/user  ——>  localhost:18081/user
+            - Path=/user/**
+
+
+
+server:
+  port: 8080
+feign:
+  hystrix:
+    enabled: true
