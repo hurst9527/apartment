@@ -31,10 +31,8 @@
    <link rel="stylesheet" href="css/custom.css" />
    <!-- calendar file css -->
    <link rel="stylesheet" href="js/semantic.min.css" />
-   <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-      <![endif]-->
+   
+   <link rel="stylesheet" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
 </head>
 
 <body class="inner_page login">
@@ -54,7 +52,38 @@
                            <label class="label_field">姓名：</label>
                            <input type="name" name="name" placeholder="以身份证为准" />
                         </div>
+                        <div class="field">
+                           <label class="label_field">籍贯：</label>
+                           <div class="form-group">
 
+
+
+                              <div class="col-lg-10" id="shenFen">
+                                 <select id="SF_basic" class="selectpicker show-tick form-control"
+                                    data-live-search="true">
+                                    <option>省份</option>
+                                    <option data-subtext="">bull</option>
+                                 </select>
+                              </div>
+                              <br>
+                              <div class="col-lg-10" id="shenFen">
+                                 <select id="S_basic" class="selectpicker show-tick form-control"
+                                    data-live-search="true">
+                                    <option>市</option>
+                                    <option data-subtext="">bull</option>
+                                 </select>
+                              </div>
+                              <br>
+                              <div class="col-lg-10" id="shenFen">
+                                 <select id="Q_basic" class="selectpicker show-tick form-control"
+                                    data-live-search="true">
+                                    <option>区/县</option>
+                                    <option data-subtext="">bull</option>
+                                 </select>
+                              </div>
+                              <input type="text">
+                           </div>
+                        </div>
                         <div class="field">
                            <label class="label_field">电话号码：</label>
                            <input type="phoneNo" name="phoneNo" placeholder="用于登录系统" id="input_phoneNo"
@@ -73,8 +102,6 @@
                            <button class="main_bt disabled" type="button" id="submit_btn">注册</button>
                            <span style="margin-left: 15px;color: red;font-weight: 20px; " id="tishi_span"></span>
                            <a class="forgot disabled" href="login.html">已有账号，去登录</a>
-                        </div>
-                        <div class="field margin_0">
                         </div>
 
                      </fieldset>
@@ -102,6 +129,7 @@
    <script src="js/conf.js"></script>
    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
    <script>
+      // 正则判断电话号码
       function test_() {
          var theinput = document.getElementById("input_phoneNo").value;
          var p1 = /^(13[0-9]\d{8}|15[0-35-9]\d{8}|18[0-9]\{8}|14[57]\d{8})$/;
@@ -112,8 +140,6 @@
             return false;
          } else return true;
       }
-
-
       $("#input_phoneNo").change(function () {
          // alert(test_());
          var flag = test_();
@@ -140,6 +166,55 @@
             });
          }
       });
+
+
+      $(document).ready(function () {
+         var mySelect = $('#first-disabled2');
+
+         $('#special').on('click', function () {
+            mySelect.find('option:selected').prop('disabled', true);
+            mySelect.selectpicker('refresh');
+         });
+
+         $('#special2').on('click', function () {
+            mySelect.find('option:disabled').prop('disabled', false);
+            mySelect.selectpicker('refresh');
+         });
+
+         $('#basic2').selectpicker({
+            liveSearch: true,
+            maxOptions: 1
+         });
+      });
+
+      $.ajax({
+         type: "post", //提交的方法
+         url: ip + "/area/search", //提交的地址
+         data: JSON.stringify({
+            "pid": "1"
+         }),
+         async: true,
+         dataType: "json",
+         error: function (request) { //失败的话
+            alert("请求失败，请稍后重试");
+         },
+         success: function (data) { //成功
+            if (data.statusCode != 200) {
+               alert(data.desc);
+               return;
+            }
+            var select = $("#SF_basic");
+            select.html();
+            var basicHtml = "<option>省份</option>";
+            for (var i = 0; i < data.result.length; i++) {
+               select.append("<option value='" + data.result[i].name + "'>" +
+                  data.result[i].name + "</option>");
+            };
+            $("#SF_basic").html(basicHtml);
+            // $('.selectpicker').selectpicker('refresh');
+            // $('.selectpicker').selectpicker('render');
+         }
+      })
    </script>
 
 </body>
