@@ -19,3 +19,18 @@ server:
 feign:
   hystrix:
     enabled: true
+  httpclient:
+    connection-timeout: 1500
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 90000
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000

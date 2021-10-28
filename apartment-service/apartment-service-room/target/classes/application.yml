@@ -11,7 +11,7 @@ spring:
     name: room
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://121.196.146.187:3306/apartment_room?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT&useSSL=false&wait_timeout=86400
+    url: jdbc:mysql://121.196.146.187:3306/apartment_rooms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT&useSSL=false&wait_timeout=86400
     username: hxj
     password: HXJ010425.
 server:
@@ -19,3 +19,18 @@ server:
 feign:
   hystrix:
     enabled: true
+  httpclient:
+    connection-timeout: 1500
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 90000
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
