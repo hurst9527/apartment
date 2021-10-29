@@ -37,12 +37,28 @@
       <![endif]-->
    <script src="js/jquery-3.3.1.min.js"></script>
    <script>
-      // function cilckbtn(btnId) {
-      //    $("#" + btnId).click()
-      // }
+      function getCookie(name) {
+         var prefix = name + "="
+         var start = document.cookie.indexOf(prefix)
 
+         if (start == -1) {
+            return null;
+         }
 
+         var end = document.cookie.indexOf(";", start + prefix.length)
+         if (end == -1) {
+            end = document.cookie.length;
+         }
 
+         var value = document.cookie.substring(start + prefix.length, end)
+         return unescape(value);
+      }
+
+      var identity = getCookie("identity");
+      if (identity != "user") {
+         alert("抱歉，您没有权限修改用户信息")
+         window.location.href = "/index.html"
+      }
       $(function () {
          //图片被点击后拉起文件选择框
          $('#imgBtn').click(function () {
@@ -59,6 +75,7 @@
          });
       })
    </script>
+
 </head>
 
 <body class="inner_page login">
@@ -78,30 +95,26 @@
 
 
                <div class="login_form">
-                  <form id="formData" action="http://127.0.0.1:18081/user" method="post">
+                  <form id="formData" method="post" enctype="multipart/form-data">
                      <fieldset>
                         <div class="field" style="display: none;">
                            <input type="text" name="name" placeholder="以身份证为准" readonly="true" />
                         </div>
-                        <!-- <div class="field" style="display: none;">
-                           <label class="label_field">上传/更改头像：</label>
-                           <input type="file" name="file" placeholder="头像" id="uploadHeadImg" />
-                        </div> -->
                         <div class="field" style="display: none;">
                            <label class="label_field">上传/更改头像：</label>
                            <input type="file" name="file" id="currImg" style="display: none;" />
                         </div>
                         <div class="field">
                            <label class="label_field">公寓房间号：</label>
-                           <input type="text" name="roomID" placeholder="房间号" readonly="true" />
+                           <input type="text" id="roomIDInput" name="roomID" placeholder="房间号" readonly="true" />
                         </div>
                         <div class="field">
                            <label class="label_field">绑定电话号码：</label>
-                           <input type="text" name="phoneNo" placeholder="用于登录系统" readonly="true" />
+                           <input type="text" id="phoneNoInput" name="phoneNo" placeholder="用于登录系统" readonly="true" />
                         </div>
                         <div class="field">
                            <label class="label_field">生日：</label>
-                           <input type="date" name="birthday" value="1960-09-24" />
+                           <input type="date" name="date" value="1960-09-24" />
                            <!-- <input type="otherDesc" name="otherDesc" placeholder="如：1960-12-01" /> -->
                         </div>
                         <div class="field">
@@ -122,13 +135,9 @@
                         </div>
                         <div class="field margin_0">
                            <label class="label_field hidden">hidden label</label>
-                           <button class="main_bt" onclick="submit()">确认修改</button>
+                           <button type="submit" class="main_bt" id="submitBtn">确认修改</button>
                         </div>
-                        <!-- <div class="field">
-                              <label class="label_field hidden">hidden label</label>
-                              <label class="form-check-label"><input type="checkbox" class="form-check-input"> Remember Me</label>
-                              <a class="forgot" href="">Forgotten Password?</a>
-                           </div> -->
+
                      </fieldset>
                   </form>
                </div>
@@ -151,7 +160,39 @@
    </script>
    <!-- custom js -->
    <script src="js/custom.js"></script>
+   <script src="js/conf.js"></script>
+   <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+   <script>
+      if (getCookie("RoomID") != null) {
+         $("#roomIDInput").attr("placeholder", getCookie("RoomID"))
+      }
 
+      if (getCookie("PhoneNo") != null) {
+         $("#phoneNoInput").attr("placeholder", getCookie("PhoneNo"))
+      }
+      // $('#formData').attr("action", ip + "/user/" + getCookie("id"))
+      $("#submitBtn").click(function () {
+         // var formData = new FormData($( "#uploadForm" )[0]); 
+         $.ajax({
+            type: "post", //提交的方法
+            url: ip + "/user/" + getCookie("id"), //提交的地址
+            data: $('#formData').serialize(), // 序列化表单值
+            async: true,
+            error: function (request) { //失败的话
+               alert("请求失败，请稍后重试");
+            },
+            success: function (data) { //成功
+               if (data.statusCode != 200) {
+                  alert(data.desc)
+               } else { //访问成功
+                  alert("修改成功");
+                  window.location.href = "/index.html"
+               }
+            }
+         });
+
+      });
+   </script>
 </body>
 
 </html>
