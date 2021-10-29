@@ -7,11 +7,16 @@ import hxj.apartment.bean.AdminInfo;
 import hxj.apartment.bean.User;
 import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.UserService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 
 /****
@@ -54,7 +59,9 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public Result login(User user, @RequestParam("identity") String identity, @RequestParam(value = "isMember", required = false) boolean isMember) {
+    public Result login(User user, @RequestParam("identity") String identity,
+                        @RequestParam(value = "isMember", required = false) boolean isMember) {
+//        登录身份判断
         if (identity.equals("family")) {
             user.setEmergencyContactPhoneNo(user.getPhoneNo());
             user.setPhoneNo(null);
@@ -64,7 +71,7 @@ public class UserController {
             return new Result(true, StatusCode.IDENTERROR, "账号错误");
         }
         if (searchUser.getPassword().equals(user.getPassword())) {
-            return new Result(true, StatusCode.OK, "密码正确，登录成功");
+            return new Result(true, StatusCode.OK, "密码正确，登录成功", searchUser);
         }
         return new Result(true, StatusCode.PWDERROR, "密码错误");
     }
@@ -151,14 +158,19 @@ public class UserController {
      */
     @ApiOperation(value = "User根据ID修改", notes = "根据ID修改User方法详情", tags = {"UserController"})
     @ApiImplicitParam(paramType = "path", name = "id", value = "主键ID", required = true, dataType = "Integer")
-    @PutMapping(value = "/{id}")
-    public Result update(@RequestBody @ApiParam(name = "User对象", value = "传入JSON数据", required = false) User user,
-                         @PathVariable Integer id, @RequestParam(value = "image", required = false) MultipartFile multipartFile) {
+    @PostMapping(value = "/{id}")
+    public Result update(User user, @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                         @PathVariable("id") Integer id, @RequestParam(name = "file", value = "file", required = false) MultipartFile file) {
         //设置主键值
         user.setId(id);
+        user.setBirthday(date);
 //        将上传的图像进行保存
-        Result uploadRes = fileFeign.upload(multipartFile);
-        user.setImage(String.valueOf(uploadRes.getResult()));
+        System.out.println(file);
+        if (file != null) {
+            Result uploadRes = fileFeign.upload(file);
+            System.out.println(uploadRes.getResult());
+            user.setImage(String.valueOf(uploadRes.getResult()));
+        }
         //调用UserService实现修改User
         userService.update(user);
         return new Result(true, StatusCode.OK, "修改成功");
