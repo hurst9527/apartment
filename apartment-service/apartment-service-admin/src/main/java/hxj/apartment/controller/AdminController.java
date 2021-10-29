@@ -1,15 +1,17 @@
 package hxj.apartment.controller;
+
 import bean.Result;
 import bean.StatusCode;
+import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Admin;
 import hxj.apartment.bean.AdminInfo;
+import hxj.apartment.bean.User;
 import hxj.apartment.feign.UserFeign;
 import hxj.apartment.service.AdminService;
-import com.github.pagehelper.PageInfo;
-
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /****
@@ -25,13 +27,51 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+
+    @Autowired
+    private UserFeign userFeign;
+
+
+    /**
+     * 根据状态查找用户
+     *
+     * @param status
+     * @return
+     */
+    @GetMapping("/userQuery/{status}")
+    public Result userQuery(@PathVariable("status") String status) {
+        User user = new User();
+        user.setStatus(status);
+        return userFeign.findList(user);
+    }
+
+
+    @PostMapping("/login")
+    public Result login(Admin admin) {
+//        构造搜索条件
+        Admin searchTemp = new Admin();
+        searchTemp.setPhoneNo(admin.getPhoneNo());
+        searchTemp.setStatus("1");//在职
+        List<Admin> list = adminService.findList(searchTemp);
+        if (list.size() == 0) {
+            return new Result(true, StatusCode.PHONENOERROR, "该账号不存在");
+        }
+        if (list.get(0).getPassword().equals(admin.getPassword())) {
+            return new Result(true, StatusCode.OK, "登录成功");
+        } else {
+            return new Result(true, StatusCode.PWDERROR, "密码错误");
+        }
+    }
+
+
     /**
      * 根据在职状态查找员工
+     *
      * @param status
      * @return
      */
     @GetMapping("/query")
-    public Result queryAdmin(@RequestParam("status")String status){
+    public Result queryAdmin(@RequestParam("status") String status) {
         List<AdminInfo> nowAmin = adminService.queryAdmin(status);
         return new Result(true,StatusCode.OK,"查询成功",nowAmin);
     }

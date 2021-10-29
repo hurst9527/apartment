@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.User;
 import hxj.apartment.dao.UserMapper;
+import hxj.apartment.service.UserRelationshipService;
 import hxj.apartment.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.List;
 
 /****
  * @Author:HXJ
- * @Description:Users业务层接口实现类
+ * @Description:User业务层接口实现类
  *****/
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,13 +25,16 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
 
+    @Autowired
+    private UserRelationshipService userRelationshipService;
+
+
     @Override
     public User login(User user) {
         try {
             User searchUser = findList(user).get(0);
             return searchUser;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -44,11 +48,39 @@ public class UserServiceImpl implements UserService {
     public void userCheckout(Integer userId) {
         User user = findById(userId);
         user.setCheckOutDate(new Date());
+        user.setStatus("0");
         update(user);
     }
 
+
     /**
-     * Users条件+分页查询
+     * 根据用户id通过验证
+     *
+     * @param userId 用户id
+     */
+    @Override
+    public void passVerifi(Integer userId) {
+        User user = findById(userId);
+        user.setStatus("1");
+        update(user);
+    }
+
+
+    /**
+     * 根据用户id不通过验证
+     *
+     * @param userId 用户id
+     */
+    @Override
+    public void unPassVerifi(Integer userId) {
+        User user = findById(userId);
+        user.setStatus("2");
+        update(user);
+    }
+
+
+    /**
+     * User条件+分页查询
      *
      * @param user 查询条件
      * @param page 页码
@@ -66,7 +98,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Users分页查询
+     * User分页查询
      *
      * @param page
      * @param size
@@ -81,7 +113,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Users条件查询
+     * User条件查询
      *
      * @param user
      * @return
@@ -96,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * Users构建查询对象
+     * User构建查询对象
      *
      * @param user
      * @return
@@ -188,7 +220,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 修改Users
+     * 修改User
      *
      * @param user
      */
@@ -198,18 +230,17 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 增加Users
+     * 增加User
      *
      * @param user
      */
     @Override
     public void add(User user) {
-        user.setRegistDate(new Date());
         userMapper.insert(user);
     }
 
     /**
-     * 根据ID查询Users
+     * 根据ID查询User
      *
      * @param id
      * @return
@@ -220,8 +251,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 查询Users全部数据
-     *
+     * 查询User全部数据
      * @return
      */
     @Override

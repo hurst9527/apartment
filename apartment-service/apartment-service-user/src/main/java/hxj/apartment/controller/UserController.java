@@ -9,9 +9,11 @@ import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 
 /****
@@ -49,14 +51,16 @@ public class UserController {
         if (list.size() > 0) {
             return new Result(true, StatusCode.PHONENOERROR, "号码不可用");
         }
-        return new Result(true, StatusCode.OK, "此号码可用");
+        return new Result(true, StatusCode.OK, "号码可用");
     }
 
 
     @PostMapping("/login")
-    public Result login(User user, @RequestParam("identity") String identity, @RequestParam(value = "isMember", required = false) boolean isMember) {
+    public Result login(User user, @RequestParam("identity") String identity,
+                        @RequestParam(value = "isMember", required = false) boolean isMember) {
+//        登录身份判断
         if (identity.equals("family")) {
-            user.setEmergencyContactPhoneNo(user.getPhoneNo());
+            user.setEmergencyContactPhoneNo(Math.toIntExact(user.getPhoneNo()));
             user.setPhoneNo(null);
         }
         User searchUser = userService.login(user);
@@ -64,16 +68,30 @@ public class UserController {
             return new Result(true, StatusCode.IDENTERROR, "账号错误");
         }
         if (searchUser.getPassword().equals(user.getPassword())) {
-            return new Result(true, StatusCode.OK, "密码正确，登录成功");
+            return new Result(true, StatusCode.OK, "密码正确，登录成功", searchUser);
         }
         return new Result(true, StatusCode.PWDERROR, "密码错误");
     }
 
 
-    @GetMapping("/checkout/{userId}")
-    public Result checkout(@RequestParam("userId") Integer userId) {
+    @GetMapping("/checkOut/{userId}")
+    public Result checkout(@PathVariable("userId") Integer userId) {
         userService.userCheckout(userId);
-        return new Result(true, StatusCode.OK, "成功注销");
+        return new Result(true, StatusCode.OK, "用户成功注销");
+    }
+
+
+    @GetMapping("/passVerifi/{userId}")
+    public Result PassVerification(@PathVariable("userId") Integer userId) {
+        userService.passVerifi(userId);
+        return new Result(true, StatusCode.OK, "用户已通过验证");
+    }
+
+
+    @GetMapping("/unPassVerifi/{userId}")
+    public Result unPassVerification(@PathVariable("userId") Integer userId) {
+        userService.unPassVerifi(userId);
+        return new Result(true, StatusCode.OK, "用户未通过验证，请及时联系用户");
     }
 
 
@@ -90,8 +108,8 @@ public class UserController {
             @ApiImplicitParam(paramType = "path", name = "size", value = "每页显示条数", required = true, dataType = "Integer")
     })
     @PostMapping(value = "/search/{page}/{size}")
-//    public Result<PageInfo> findPage(@RequestBody(required = false) @ApiParam(name = "User对象", value = "传入JSON数据", required = false) User user, @PathVariable int page, @PathVariable int size) {
-    public Result<PageInfo> findPage(User user, @PathVariable int page, @PathVariable int size) {
+    public Result<PageInfo> findPage(@RequestBody(required = false) @ApiParam(name = "User对象", value = "传入JSON数据", required = false) User user, @PathVariable int page, @PathVariable int size) {
+//    public Result<PageInfo> findPage(User user, @PathVariable int page, @PathVariable int size) {
         //调用UserService实现分页条件查询User
         PageInfo<User> pageInfo = userService.findPage(user, page, size);
         return new Result(true, StatusCode.OK, "查询成功", pageInfo);
@@ -122,9 +140,7 @@ public class UserController {
      */
     @ApiOperation(value = "User条件查询", notes = "条件查询User方法详情", tags = {"UserController"})
     @PostMapping(value = "/search")
-//    public Result<List<User>> findList(@RequestBody(required = false) @ApiParam(name = "User对象", value = "传入JSON数据", required = false) User user) {
-    public Result<List<User>> findList(User user) {
-        //调用UserService实现条件查询User
+    public Result<List<User>> findList(@RequestBody(required = false) @ApiParam(name = "User对象", value = "传入JSON数据", required = false) User user) {
         List<User> list = userService.findList(user);
         return new Result<List<User>>(true, StatusCode.OK, "查询成功", list);
     }
@@ -151,14 +167,19 @@ public class UserController {
      */
     @ApiOperation(value = "User根据ID修改", notes = "根据ID修改User方法详情", tags = {"UserController"})
     @ApiImplicitParam(paramType = "path", name = "id", value = "主键ID", required = true, dataType = "Integer")
-    @PutMapping(value = "/{id}")
-    public Result update(@RequestBody @ApiParam(name = "User对象", value = "传入JSON数据", required = false) User user,
-                         @PathVariable Integer id, @RequestParam(value = "image", required = false) MultipartFile multipartFile) {
+    @PostMapping(value = "/{id}")
+    public Result update(User user, @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                         @PathVariable("id") Integer id, @RequestParam(name = "file", value = "file", required = false) MultipartFile file) {
         //设置主键值
         user.setId(id);
+        user.setBirthday(date);
 //        将上传的图像进行保存
-        Result uploadRes = fileFeign.upload(multipartFile);
-        user.setImage(String.valueOf(uploadRes.getResult()));
+        System.out.println(file);
+        if (file != null) {
+            Result uploadRes = fileFeign.upload(file);
+            System.out.println(uploadRes.getResult());
+            user.setImage(String.valueOf(uploadRes.getResult()));
+        }
         //调用UserService实现修改User
         userService.update(user);
         return new Result(true, StatusCode.OK, "修改成功");
@@ -171,7 +192,7 @@ public class UserController {
      */
     @ApiOperation(value = "User添加", notes = "添加User方法详情", tags = {"UserController"})
     @PostMapping
-    public Result add(User user) {
+    public Result add(@RequestBody User user) {
         //调用UserService实现添加User
         userService.add(user);
         return new Result(true, StatusCode.OK, "添加成功");

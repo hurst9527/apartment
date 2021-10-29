@@ -1,13 +1,14 @@
 package hxj.apartment.controller;
+
 import bean.Result;
 import bean.StatusCode;
+import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Area;
 import hxj.apartment.service.AreaService;
-import com.github.pagehelper.PageInfo;
-
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /****
@@ -65,12 +66,13 @@ public class AreaController {
      * @param area
      * @return
      */
-    @ApiOperation(value = "Area条件查询",notes = "条件查询Area方法详情",tags = {"AreaController"})
-    @PostMapping(value = "/search" )
-    public Result<List<Area>> findList(@RequestBody(required = false) @ApiParam(name = "Area对象",value = "传入JSON数据",required = false) Area area){
+    @ApiOperation(value = "Area条件查询", notes = "条件查询Area方法详情", tags = {"AreaController"})
+    @PostMapping(value = "/search")
+//    public Result<List<Area>> findList(@RequestBody(required = false) @ApiParam(name = "Area对象",value = "传入JSON数据",required = false) Area area){
+    public Result<List<Area>> findList(Area area) {
         //调用AreaService实现条件查询Area
         List<Area> list = areaService.findList(area);
-        return new Result<List<Area>>(true,StatusCode.OK,"查询成功",list);
+        return new Result<List<Area>>(true, StatusCode.OK, "查询成功", list);
     }
 
     /***
