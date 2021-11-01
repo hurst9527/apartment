@@ -35,13 +35,23 @@ public class UserController {
     @Autowired
     private hxj.apartment.feign.adminFeign adminFeign;
 
+    /**
+     * 获取所有状态为2（审核通过）的管理员联系方式
+     *
+     * @return
+     */
     @GetMapping("/contact")
     public Result<List<AdminInfo>> queryAdmins() {
         Result result = adminFeign.queryAdmin("2");
         return result;
     }
 
-
+    /**
+     * 查找电话号码，判断是否可用
+     *
+     * @param phoneNo
+     * @return
+     */
     @GetMapping("/phoneQuery")
     public Result phoneQuery(Long phoneNo) {
         User user = new User();
@@ -73,14 +83,24 @@ public class UserController {
         return new Result(true, StatusCode.PWDERROR, "密码错误");
     }
 
-
+    /**
+     * 将用户状态设置为0 注销
+     *
+     * @param userId
+     * @return
+     */
     @GetMapping("/checkOut/{userId}")
     public Result checkout(@PathVariable("userId") Integer userId) {
         userService.userCheckout(userId);
         return new Result(true, StatusCode.OK, "用户成功注销");
     }
 
-
+    /**
+     * 将用户状态设置为1  通过
+     *
+     * @param userId
+     * @return
+     */
     @GetMapping("/passVerifi/{userId}")
     public Result PassVerification(@PathVariable("userId") Integer userId) {
         userService.passVerifi(userId);
@@ -88,6 +108,12 @@ public class UserController {
     }
 
 
+    /**
+     * 将用户状态设置为2  不通过
+     *
+     * @param userId
+     * @return
+     */
     @GetMapping("/unPassVerifi/{userId}")
     public Result unPassVerification(@PathVariable("userId") Integer userId) {
         userService.unPassVerifi(userId);
@@ -192,7 +218,7 @@ public class UserController {
      */
     @ApiOperation(value = "User添加", notes = "添加User方法详情", tags = {"UserController"})
     @PostMapping
-    public Result add(@RequestBody User user) {
+    public Result add(User user) {
         //调用UserService实现添加User
         userService.add(user);
         return new Result(true, StatusCode.OK, "添加成功");

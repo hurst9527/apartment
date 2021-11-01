@@ -169,7 +169,7 @@
                               <div class="table-responsive-sm">
                                  <table class="table table-hover" style="text-align: center;">
                                     <thead>
-                                       <tr >
+                                       <tr>
                                           <th>账号</th>
                                           <th>姓名</th>
                                           <th>电话号码</th>
@@ -181,7 +181,7 @@
                                           <th>审核</th>
                                        </tr>
                                     </thead>
-                                    <tbody >
+                                    <tbody id="waitingUserTBody">
                                        <tr>
                                           <td>1000</td>
                                           <td>hxj</td>
@@ -191,8 +191,10 @@
                                           <td>公寓管理员</td>
                                           <td>公寓管理员</td>
                                           <td>
-                                             <button type="button" style="background-color: rgba(172, 255, 47, 0.76)" class="btn btn-default">通&nbsp;&nbsp;过</button>
-                                             <button type="button" style="background-color: rgba(231, 86, 86, 0.74);" class="btn btn-default">不&nbsp;通&nbsp;过</button>
+                                             <button type="button" style="background-color: rgba(172, 255, 47, 0.76)"
+                                                class="btn btn-default">通&nbsp;&nbsp;过</button>
+                                             <button type="button" style="background-color: rgba(231, 86, 86, 0.74);"
+                                                class="btn btn-default">不&nbsp;通&nbsp;过</button>
                                           </td>
                                        </tr>
                                     </tbody>
@@ -216,21 +218,21 @@
                               <div class="table-responsive-sm">
                                  <table class="table table-hover" style="text-align: center;">
                                     <thead>
-                                       <tr >
+                                       <tr>
                                           <th>姓名</th>
                                           <th>电话号码</th>
                                           <th>房间号</th>
                                           <th>年纪</th>
                                           <th>备注</th>
-                                          <th>联系人电话</th>
                                           <th>联系人姓名</th>
-                                          <th>联系人地址</th>
                                           <th>与联系人关系</th>
+                                          <th>联系人电话</th>
+                                          <th>联系人地址</th>
                                           <th>入住日期</th>
                                           <th>注销用户</th>
                                        </tr>
                                     </thead>
-                                    <tbody >
+                                    <tbody id="passUserTBody">
                                        <tr>
                                           <td>1000</td>
                                           <td>hxj</td>
@@ -238,8 +240,13 @@
                                           <td>公寓管理员</td>
                                           <td>公寓管理员</td>
                                           <td>公寓管理员</td>
+                                          <td>公寓管理员</td>
+                                          <td>公寓管理员</td>
+                                          <td>公寓管理员</td>
+                                          <td>公寓管理员</td>
                                           <td>
-                                             <button type="button" style="background-color: rgba(231, 86, 86, 0.74);" class="btn btn-default">注&nbsp;&nbsp;销</button>
+                                             <button type="button" style="background-color: rgba(231, 86, 86, 0.74);"
+                                                class="btn btn-default">注&nbsp;&nbsp;销</button>
                                           </td>
                                        </tr>
                                     </tbody>
@@ -309,8 +316,179 @@
    <script src="js/jquery.fancybox.min.js"></script>
    <!-- custom js -->
    <script src="js/custom.js"></script>
-   <!-- calendar file css -->
    <script src="js/semantic.min.js"></script>
+   <script src="js/conf.js"></script>
+   <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+   <script>
+      Date.prototype.format = function (fmt) {
+         var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时
+            "H+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+         };
+         if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+         for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+               fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k])
+                  .length)));
+         return fmt;
+      }
+
+      // 渲染通过审核用户数据
+      $.ajax({
+         type: "get", //提交的方法
+         url: ip + "/admin/userQuery/3", //提交的地址
+         async: true,
+         error: function (request) { //失败的话
+            alert("请求失败，请稍后重试");
+         },
+         success: function (data) { //成功
+            var waitingUserTBodyHtml = "";
+            var users = data.result;
+            for (var i = 0; i < users.length; i++) {
+               if (users[i].birthday != null) {
+                  var birthday = new Date(users[i].birthday).format("yyyy-MM-dd");
+               } else var birthday = "未填";
+               if (users[i].registDate != null) {
+                  var registDate = new Date(users[i].registDate).format("yyyy-MM-dd");
+               } else var birthday = "未填";
+               if (users[i].otherDesc == null) {
+                  users[i].otherDesc = "未填"
+               }
+               // alert(birthday)
+               waitingUserTBodyHtml += ` <tr>
+                     <td>` + users[i].id + `</td>
+                     <td>` + users[i].name + `</td>
+                     <td>` + users[i].phoneNo + `</td>
+                     <td>` + users[i].roomID + `</td>
+                     <td>` + birthday + `</td>
+                     <td>` + users[i].otherDesc + `</td>
+                     <td>` + registDate + `</td>
+                     <td>
+                        <button type="button" style="background-color: rgba(172, 255, 47, 0.76)"
+                           class="btn btn-default " onClick="passVerifi(` + users[i].id + `)">通&nbsp;&nbsp;过</button>
+                        <button type="button" style="background-color: rgba(231, 86, 86, 0.74);"
+                           class="btn btn-default" onClick="unPassVerifi(` + users[i].id + `)">不&nbsp;通&nbsp;过</button>
+                     </td>
+                  </tr>`
+            }
+            $("#waitingUserTBody").html(waitingUserTBodyHtml);
+         }
+      });
+
+      // 渲染未通过审核用户数据
+      $.ajax({
+         type: "get", //提交的方法
+         url: ip + "/admin/userQuery/1", //提交的地址
+         async: true,
+         error: function (request) { //失败的话
+            alert("请求失败，请稍后重试");
+         },
+         success: function (data) { //成功
+            // if(data.length>0)
+            var passUserTBodyHtml = "";
+            var users = data.result;
+            for (var i = 0; i < users.length; i++) {
+               if (users[i].birthday != null) {
+                  var birthday = new Date(users[i].birthday).format("yyyy-MM-dd");
+               } else var birthday = "未填";
+               if (users[i].registDate != null) {
+                  var registDate = new Date(users[i].registDate).format("yyyy-MM-dd");
+               } else var birthday = "未填";
+               if (users[i].otherDesc == null) {
+                  users[i].otherDesc = "未填"
+               }
+               if (users[i].otherDesc != null) {
+                  var otherDesc = users[i].otherDesc;
+               } else var otherDesc = "未填";
+               if (users[i].emergencyContactName != null) {
+                  var emergencyContactName = users[i].emergencyContactName;
+               } else var emergencyContactName = "未填";
+               if (users[i].emergencyContactPhoneNo != null) {
+                  var emergencyContactPhoneNo = users[i].emergencyContactPhoneNo;
+               } else var emergencyContactPhoneNo = "未填";
+               if (users[i].emergencyContactRelationship != null) {
+                  var emergencyContactRelationship = users[i].emergencyContactRelationship;
+               } else var emergencyContactRelationship = "未填";
+               if (users[i].emergencyContactAddress != null) {
+                  var emergencyContactAddress = users[i].emergencyContactAddress;
+               } else var emergencyContactAddress = "未填";
+               // alert(birthday)
+               passUserTBodyHtml += ` <tr>
+                     <td>` + users[i].name + `</td>
+                     <td>` + users[i].phoneNo + `</td>
+                     <td>` + users[i].roomID + `</td>
+                     <td>` + birthday + `</td>
+                     <td>` + otherDesc + `</td>
+                     <td>` + emergencyContactName + `</td>
+                     <td>` + emergencyContactRelationship + `</td>
+                     <td>` + emergencyContactPhoneNo + `</td>
+                     <td>` + emergencyContactAddress + `</td>
+                     <td>` + registDate + `</td>
+                     <td>
+                        <button type="button" style="background-color: rgba(231, 86, 86, 0.74);"
+                           class="btn btn-default" onClick="checkOut(` + users[i].id + `)">注&nbsp;&nbsp;销</button>
+                     </td>
+                  </tr>`
+            }
+            $("#passUserTBody").html(passUserTBodyHtml);
+         }
+      });
+
+
+      // 按钮绑定通过验证事件
+      function passVerifi(userID) {
+         $.ajax({
+            type: "get", //提交的方法
+            url: ip + "/user/passVerifi/" + userID, //提交的地址
+            async: true,
+            error: function (request) { //失败的话
+               alert("请求失败，请稍后重试");
+            },
+            success: function (data) { //成功
+               alert(data.desc);
+               window.location.reload();
+            }
+         });
+      }
+      // 按钮绑定不通过验证事件
+      function unPassVerifi(userID) {
+         $.ajax({
+            type: "get", //提交的方法
+            url: ip + "/user/unPassVerifi/" + userID, //提交的地址
+            async: true,
+            error: function (request) { //失败的话
+               alert("请求失败，请稍后重试");
+            },
+            success: function (data) { //成功
+               alert(data.desc)
+               window.location.reload();
+            }
+         });
+      }
+      // 按钮绑定注销事件
+      function checkOut(userID) {
+         $.ajax({
+            type: "get", //提交的方法
+            url: ip + "/user/checkOut/" + userID, //提交的地址
+            async: true,
+            error: function (request) { //失败的话
+               alert("请求失败，请稍后重试");
+            },
+            success: function (data) { //成功
+               alert(data.desc);
+               window.location.reload();
+            }
+         });
+      }
+   </script>
+
 </body>
 
 </html>

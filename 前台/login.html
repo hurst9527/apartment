@@ -31,6 +31,9 @@
    <link rel="stylesheet" href="css/custom.css" />
    <!-- calendar file css -->
    <link rel="stylesheet" href="js/semantic.min.css" />
+   <script>
+   </script>
+
 </head>
 
 <body class="inner_page login">
@@ -48,11 +51,11 @@
                      <fieldset>
                         <div class="field">
                            <label class="label_field">电话号码：</label>
-                           <input type="phoneNo" name="email" placeholder="电话号码" />
+                           <input autocomplete="off" id="inputPhoneNo" type="text" name="phoneNo" placeholder="电话号码" />
                         </div>
                         <div class="field">
                            <label class="label_field">密码：</label>
-                           <input type="password" name="password" placeholder="密码" />
+                           <input autocomplete="off" type="password" name="password" placeholder="密码" />
                         </div>
                         <div class="field">
                         </div>
@@ -60,13 +63,15 @@
                            <label class="label_field hidden">hidden label</label>
                            <label class="form-check-label">
                               <input type="radio" class="form-check-input" name="identity" value="user"
-                                 checked>住户登录</label>
+                                 id="userStatusRadio" checked>住户登录</label>
                            <label class="label_field hidden">hidden label</label>
                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="isMember">记住账号</label>
-                           <label class="label_field hidden">hidden label</label>
+                              <input type="radio" id="familyStatusRadio" class="form-check-input" name="identity"
+                                 value="family">家属登录</label>
                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="identity" value="family">家属登录</label>
+                              <input type="checkbox" class="form-check-input" id="isMemberCheckBox"
+                                 name="isMember">记住账号</label>
+                           <label class="label_field hidden">hidden label</label>
                            <a class="forgot" href="regist.html" style="margin-right: 87px;">注册账号</a>
                         </div>
                         <div class="field margin_0">
@@ -98,6 +103,42 @@
    <script src="js/conf.js"></script>
    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
    <script>
+      function getCookie(name) {
+         var prefix = name + "="
+         var start = document.cookie.indexOf(prefix)
+
+         if (start == -1) {
+            return null;
+         }
+
+         var end = document.cookie.indexOf(";", start + prefix.length)
+         if (end == -1) {
+            end = document.cookie.length;
+         }
+
+         var value = document.cookie.substring(start + prefix.length, end)
+         return unescape(value);
+      }
+
+      var identity = getCookie("identity");
+      if (identity == "user") {
+         $("#userStatusRadio").click();
+      }
+      if (identity == "family") {
+         $("#familyStatusRadio").click();
+      }
+      if (getCookie("PhoneNo") != null) {
+         $("#isMemberCheckBox").click();
+         $("#inputPhoneNo").val(getCookie("PhoneNo"))
+      }
+
+      function setCookie(c_name, value, expiredays) {
+         var exdate = new Date();
+         exdate.setDate(exdate.getDate() + expiredays);
+         document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate
+            .toGMTString());
+      }
+
       $("#submit_btn").click(function () {
          $.ajax({
             type: "post", //提交的方法
@@ -105,14 +146,32 @@
             data: $('#login_table').serialize(), // 序列化表单值
             async: false,
             dataType: "json",
+            crossDomain: true,
             error: function (request) { //失败的话
                alert("请求失败，请稍后重试");
             },
             success: function (data) { //成功
                if (data.statusCode != 200) {
                   alert(data.desc)
-               } else {
+               } else { //访问成功
+                  setCookie('RoomID', data.result.roomID, 14);
+                  setCookie('id', data.result.id, 14);
+                  var userPhoneNo = data.result.phoneNo;
+                  if ($("#isMemberCheckBox").is(':checked')) { // 选中了记住账号
+                     if (userPhoneNo == null) {
+                        userPhoneNo = data.result.emergencyContactPhoneNo;
+                     } else {
+                        userPhoneNo = data.result.phoneNo;
+                     }
+                     setCookie('PhoneNo', userPhoneNo, 14);
+                  }
+                  if (userPhoneNo == null) { //记录登录身份
+                     setCookie('identity', "family", 14);
+                  } else {
+                     setCookie('identity', "user", 14);
+                  }
                   window.location.href = "/index.html"
+
                }
             }
          });

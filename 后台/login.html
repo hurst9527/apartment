@@ -44,11 +44,11 @@
                   </div>
                </div>
                <div class="login_form">
-                  <form action="" method="post" id="login_table">
+                  <form id="login_table">
                      <fieldset>
                         <div class="field">
                            <label class="label_field">电话号码：</label>
-                           <input type="phoneNo" name="email" placeholder="电话号码" />
+                           <input type="phoneNo" id="phonNoInput" name="phoneNo" placeholder="电话号码" />
                         </div>
                         <div class="field">
                            <label class="label_field">密码：</label>
@@ -59,19 +59,12 @@
                         <div class="field">
                            <label class="label_field hidden">hidden label</label>
                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="identity" value="user"
-                                 checked>住户登录</label>
+                              <input type="checkbox" class="form-check-input" name="isMember" id="isMember">记住账号</label>
                            <label class="label_field hidden">hidden label</label>
-                           <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="isMember">记住账号</label>
-                           <label class="label_field hidden">hidden label</label>
-                           <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="identity" value="family">家属登录</label>
-                           <a class="forgot" href="">忘记密码?</a>
                         </div>
                         <div class="field margin_0">
                            <label class="label_field hidden">hidden label</label>
-                           <button class="main_bt" id="submit_btn" type="button">登录</button>
+                           <button class="main_bt" id="submitBtn" type="button">登录</button>
                         </div>
                      </fieldset>
                   </form>
@@ -98,24 +91,35 @@
    <script src="js/conf.js"></script>
    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
    <script>
-      $("#submit_btn").click(function () {
+      function setCookie(c_name, value, expiredays) {
+         var exdate = new Date();
+         exdate.setDate(exdate.getDate() + expiredays);
+         document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate
+            .toGMTString());
+      }
+
+      $("#submitBtn").click(function () {
          $.ajax({
             type: "post", //提交的方法
-            url: ip + "/user/login", //提交的地址
+            url: ip + "/admin/login", //提交的地址
             data: $('#login_table').serialize(), // 序列化表单值
-            async: false,
-            dataType: "json",
+            async: true,
             error: function (request) { //失败的话
                alert("请求失败，请稍后重试");
             },
             success: function (data) { //成功
-               if (data.flag == false) {
+               if (data.statusCode != 200) { //密码错误或账号不存在
                   alert(data.desc)
-               } else {
+               } else { //密码正确
+                  var phoneNo = $("#phonNoInput").val()
+                  if ($("#isMember").is(':checked')) {
+                     setCookie("phonNo", phoneNo, 14);
+                  }
                   window.location.href = "/index.html"
                }
             }
          });
+
       });
    </script>
 </body>
