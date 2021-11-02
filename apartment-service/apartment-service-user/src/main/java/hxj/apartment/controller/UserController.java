@@ -89,7 +89,7 @@ public class UserController {
      * @param userId
      * @return
      */
-    @GetMapping("/checkOut/{userId}")
+    @PostMapping("/checkOut/{userId}")
     public Result checkout(@PathVariable("userId") Integer userId) {
         userService.userCheckout(userId);
         return new Result(true, StatusCode.OK, "用户成功注销");
@@ -101,7 +101,7 @@ public class UserController {
      * @param userId
      * @return
      */
-    @GetMapping("/passVerifi/{userId}")
+    @PostMapping("/passVerifi/{userId}")
     public Result PassVerification(@PathVariable("userId") Integer userId) {
         userService.passVerifi(userId);
         return new Result(true, StatusCode.OK, "用户已通过验证");
@@ -114,7 +114,7 @@ public class UserController {
      * @param userId
      * @return
      */
-    @GetMapping("/unPassVerifi/{userId}")
+    @PostMapping("/unPassVerifi/{userId}")
     public Result unPassVerification(@PathVariable("userId") Integer userId) {
         userService.unPassVerifi(userId);
         return new Result(true, StatusCode.OK, "用户未通过验证，请及时联系用户");

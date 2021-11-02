@@ -1,10 +1,11 @@
-package hxj.admin.filter;
+package gateway.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author HXJ
@@ -33,7 +34,7 @@ public class RequestFilter implements Filter {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         String method = request.getMethod();
         if (method.equalsIgnoreCase("OPTIONS")) {
-            servletResponse.getOutputStream().write("Success".getBytes("utf-8"));
+            servletResponse.getOutputStream().write("Success".getBytes(StandardCharsets.UTF_8));
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }

@@ -1,4 +1,4 @@
-package hxj.user.filter;
+package gateway.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
  * @create 2021-10-25 19:47
  */
 @WebFilter(filterName = "requestFilter", urlPatterns = {"/*"})
-//@Component
 public class RequestFilter implements Filter {
 
     @Override
@@ -21,13 +20,15 @@ public class RequestFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+
         // 此处 setHeader、addHeader 方法都可用。但 addHeader时写多个会报错：“...,but only one is allowed”
-        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.addHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
+        // response.setHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
         // 解决预请求（发送2次请求），此问题也可在 nginx 中作相似设置解决。
-        response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Cache-Control,Origin,Pragma,Content-Type,Token, Content-Type,accept");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Cache-Control,Pragma,Content-Type,Token, Content-Type");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Credentials", "true");
@@ -37,11 +38,11 @@ public class RequestFilter implements Filter {
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
-
     }
 
     @Override
     public void destroy() {
+
     }
 
 }
