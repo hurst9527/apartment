@@ -1,12 +1,16 @@
 package hxj.apartment.controller;
+
 import bean.Result;
 import bean.StatusCode;
-import hxj.apartment.bean.Repair;
-import hxj.apartment.service.RepairService;
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Repair;
+import hxj.apartment.feign.FileFeign;
+import hxj.apartment.service.RepairService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 /****
@@ -22,6 +26,9 @@ public class RepairController {
     @Autowired
     private RepairService repairService;
 
+    @Autowired
+    private FileFeign fileFeign;
+
     /***
      * Repair分页条件搜索实现
      * @param repair
@@ -29,7 +36,7 @@ public class RepairController {
      * @param size
      * @return
      */
-    @ApiOperation(value = "Repair条件分页查询",notes = "分页条件查询Repair方法详情",tags = {"RepairController"})
+    @ApiOperation(value = "Repair条件分页查询", notes = "分页条件查询Repair方法详情", tags = {"RepairController"})
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path", name = "page", value = "当前页", required = true, dataType = "Integer"),
             @ApiImplicitParam(paramType = "path", name = "size", value = "每页显示条数", required = true, dataType = "Integer")
@@ -108,12 +115,16 @@ public class RepairController {
      * @param repair
      * @return
      */
-    @ApiOperation(value = "Repair添加",notes = "添加Repair方法详情",tags = {"RepairController"})
+    @ApiOperation(value = "Repair添加", notes = "添加Repair方法详情", tags = {"RepairController"})
     @PostMapping
-    public Result add(@RequestBody  @ApiParam(name = "Repair对象",value = "传入JSON数据",required = true) Repair repair){
+    public Result add(Repair repair, @RequestParam(value = "file", required = false) MultipartFile file) {
+        if (file != null) {
+            Result result = fileFeign.upload(file);
+            repair.setImage(String.valueOf(result.getResult()));
+        }
         //调用RepairService实现添加Repair
         repairService.add(repair);
-        return new Result(true,StatusCode.OK,"添加成功");
+        return new Result(true, StatusCode.OK, "添加成功");
     }
 
     /***

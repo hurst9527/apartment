@@ -35,7 +35,7 @@ spring:
         - id: apartment_require_route
           uri: http://localhost:18085
           predicates:
-            - Path=/require/**
+            - Path=/require/**,/repair/**
 
         - id: apartment_room_route
           uri: http://localhost:18086
