@@ -92,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
         Example example = new Example(Admin.class);
         Example.Criteria criteria = example.createCriteria();
         if (admin != null) {
-            // 
+            //
             if (!StringUtils.isEmpty(admin.getId())) {
                 criteria.andEqualTo("id", admin.getId());
             }
@@ -109,8 +109,8 @@ public class AdminServiceImpl implements AdminService {
                 criteria.andEqualTo("identity", admin.getIdentity());
             }
             // 职位
-            if (!StringUtils.isEmpty(admin.getposition())) {
-                criteria.andEqualTo("position", admin.getposition());
+            if (!StringUtils.isEmpty(admin.getPosition())) {
+                criteria.andEqualTo("position", admin.getPosition());
             }
             // 头像
             if (!StringUtils.isEmpty(admin.getImage())) {
@@ -118,9 +118,9 @@ public class AdminServiceImpl implements AdminService {
             }
             // 个人简介
             if (!StringUtils.isEmpty(admin.getIntroduce())) {
-                criteria.andEqualTo("desc", admin.getIntroduce());
+                criteria.andEqualTo("introduce", admin.getIntroduce());
             }
-            // 0:：已删除   1：审核中    2：审核通过
+            // 0：已删除   1：审核中    2：审核通过
             if (!StringUtils.isEmpty(admin.getStatus())) {
                 criteria.andEqualTo("status", admin.getStatus());
             }

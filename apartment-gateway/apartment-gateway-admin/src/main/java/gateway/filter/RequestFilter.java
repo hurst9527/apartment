@@ -1,7 +1,6 @@
 package gateway.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -11,7 +10,7 @@ import java.nio.charset.StandardCharsets;
  * @author HXJ
  * @create 2021-10-25 19:47
  */
-@WebFilter(filterName = "requestFilter", urlPatterns = {"/*"})
+//@WebFilter(filterName = "requestFilter", urlPatterns = {"/*"})
 public class RequestFilter implements Filter {
 
     @Override

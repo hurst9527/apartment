@@ -1,11 +1,10 @@
 package hxj.apartment.bean;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.lang.Long;
-import java.lang.String;
-import java.lang.Integer;
 /****
  * @Author:HXJ
  * @Description:Admin构建
@@ -57,7 +56,6 @@ public class Admin implements Serializable{
 	private String email;//邮箱
 
 
-
 	//get方法
 	public Integer getId() {
 		return id;
@@ -67,6 +65,15 @@ public class Admin implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 	//get方法
 	public String getName() {
 		return name;
@@ -93,15 +100,6 @@ public class Admin implements Serializable{
 	//set方法
 	public void setIdentity(String identity) {
 		this.identity = identity;
-	}
-	//get方法
-	public String getposition() {
-		return position;
-	}
-
-	//set方法
-	public void setposition(String position) {
-		this.position = position;
 	}
 	//get方法
 	public String getImage() {
