@@ -5,6 +5,8 @@ import bean.StatusCode;
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Admin;
 import hxj.apartment.bean.AdminInfo;
+import hxj.apartment.bean.User;
+import hxj.apartment.feign.UserFeign;
 import hxj.apartment.service.AdminService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,25 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private UserFeign userFeign;
 
+
+    @GetMapping("/userQuery/{status}")
+    public Result<List<User>> userQuery(@PathVariable("status") String status) {
+        User user = new User();
+        user.setStatus(status);
+        Result<List<User>> listResult = userFeign.findList(user);
+        return new Result<List<User>>(true, StatusCode.OK, "查询成功", listResult.getResult());
+    }
+
+
+    /**
+     * 管理员登录功能
+     *
+     * @param admin
+     * @return
+     */
     @PostMapping("/login")
     public Result login(Admin admin) {
         admin.setStatus("2");

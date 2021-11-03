@@ -220,6 +220,7 @@ public class UserController {
     @PostMapping
     public Result add(User user) {
         //调用UserService实现添加User
+        user.setStatus("3");
         userService.add(user);
         return new Result(true, StatusCode.OK, "添加成功");
     }
