@@ -30,7 +30,12 @@ public class AdminController {
     @Autowired
     private UserFeign userFeign;
 
-
+    /**
+     * 根据用户状态查找用户
+     *
+     * @param status
+     * @return
+     */
     @GetMapping("/userQuery/{status}")
     public Result<List<User>> userQuery(@PathVariable("status") String status) {
         User user = new User();
@@ -38,6 +43,70 @@ public class AdminController {
         Result<List<User>> listResult = userFeign.findList(user);
         return new Result<List<User>>(true, StatusCode.OK, "查询成功", listResult.getResult());
     }
+
+    /**
+     * 将管理员状态设置为0 不通过
+     *
+     * @param userId
+     * @return
+     */
+    @PostMapping("/checkOut/{adminID}")
+    public Result checkout(@PathVariable("adminID") Integer adminID) {
+        Admin admin = new Admin();
+        admin.setStatus("0");
+        admin.setId(adminID);
+        adminService.update(admin);
+        return new Result(true, StatusCode.OK, "用户成功注销");
+    }
+
+    /**
+     * 将管理员状态设置为1  通过
+     *
+     * @param userId
+     * @return
+     */
+    @PostMapping("/passVerifi/{adminID}")
+    public Result PassVerification(@PathVariable("adminID") Integer adminID) {
+        Admin admin = new Admin();
+        admin.setStatus("1");
+        admin.setId(adminID);
+        adminService.update(admin);
+        return new Result(true, StatusCode.OK, "用户已通过验证");
+    }
+
+
+    /**
+     * 将管理员状态设置为3  注销
+     *
+     * @param userId
+     * @return
+     */
+    @PostMapping("/unPassVerifi/{adminID}")
+    public Result unPassVerification(@PathVariable("adminID") Integer adminID) {
+        Admin admin = new Admin();
+        admin.setStatus("3");
+        admin.setId(adminID);
+        adminService.update(admin);
+        return new Result(true, StatusCode.OK, "用户未通过验证，请及时联系用户");
+    }
+
+
+    /**
+     * 根据管理员状态查找管理员
+     *
+     * @param status
+     * @return
+     */
+    @GetMapping("/adminQuery/{status}")
+    public Result<List<Admin>> adminQuery(@PathVariable("status") String status) {
+        Admin admin = new Admin();
+        admin.setStatus(status);
+        List<Admin> adminList = adminService.findList(admin);
+        return new Result<List<Admin>>(true, StatusCode.OK, "查询成功", adminList);
+    }
+
+
+//    public Result
 
 
     /**
@@ -48,7 +117,7 @@ public class AdminController {
      */
     @PostMapping("/login")
     public Result login(Admin admin) {
-        admin.setStatus("2");
+        admin.setStatus("1");
         List<Admin> list = adminService.findList(admin);
         if (list.size() == 0) {
             return new Result(true, StatusCode.PHONENOERROR, "请重新验证账号及密码");

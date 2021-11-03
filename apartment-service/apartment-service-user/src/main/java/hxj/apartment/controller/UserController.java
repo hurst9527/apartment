@@ -84,7 +84,7 @@ public class UserController {
     }
 
     /**
-     * 将用户状态设置为0 注销
+     * 将用户状态设置为0 不通过
      *
      * @param userId
      * @return
@@ -109,7 +109,7 @@ public class UserController {
 
 
     /**
-     * 将用户状态设置为2  不通过
+     * 将用户状态设置为3  注销
      *
      * @param userId
      * @return

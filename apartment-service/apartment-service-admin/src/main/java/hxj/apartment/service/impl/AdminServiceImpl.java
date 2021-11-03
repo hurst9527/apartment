@@ -153,7 +153,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void update(Admin admin) {
-        adminMapper.updateByPrimaryKey(admin);
+        adminMapper.updateByPrimaryKeySelective(admin);
     }
 
     /**

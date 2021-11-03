@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     public void userCheckout(Integer userId) {
         User user = findById(userId);
         user.setCheckOutDate(new Date());
-        user.setStatus("0");
+        user.setStatus("3");
         update(user);
     }
 
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void unPassVerifi(Integer userId) {
         User user = findById(userId);
-        user.setStatus("2");
+        user.setStatus("0");
         update(user);
     }
 
