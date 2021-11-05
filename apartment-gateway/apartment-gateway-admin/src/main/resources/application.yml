@@ -16,7 +16,7 @@ spring:
         - id: apartment_admin_route
           uri: http://localhost:18081
           predicates:
-            - Path=/admin/**
+            - Path=/admin/**,/position/**,/adminGrade/**
 
         - id: apartment_good_route
           uri: http://localhost:18083

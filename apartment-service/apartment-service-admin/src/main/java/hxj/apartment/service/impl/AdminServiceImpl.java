@@ -1,14 +1,17 @@
 package hxj.apartment.service.impl;
 
+import bean.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Admin;
 import hxj.apartment.bean.AdminInfo;
 import hxj.apartment.dao.AdminMapper;
+import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -23,9 +26,12 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
 
+    @Autowired
+    private FileFeign fileFeign;
 
     /**
      * 根据在职状态查找员工
+     *
      * @param status
      * @return
      */
@@ -185,5 +191,15 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Admin> findAll() {
         return adminMapper.selectAll();
+    }
+
+    @Override
+    public void regist(Admin admin, MultipartFile headImg) {
+        admin.setStatus("2");
+        if (headImg != null) {
+            Result result = fileFeign.upload(headImg);
+            admin.setImage(String.valueOf(result.getResult()));
+        }
+        add(admin);
     }
 }

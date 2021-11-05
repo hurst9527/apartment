@@ -1,7 +1,9 @@
 package hxj.apartment.service;
-import hxj.apartment.bean.Admin;
+
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Admin;
 import hxj.apartment.bean.AdminInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 /****
@@ -64,11 +66,19 @@ public interface AdminService {
      * @param id
      * @return
      */
-     Admin findById(Integer id);
+    Admin findById(Integer id);
 
     /***
      * 查询所有Admin
      * @return
      */
     List<Admin> findAll();
+
+    /**
+     * 管理员注册
+     *
+     * @param admin   管理员信息
+     * @param headImg 管理员头像
+     */
+    void regist(Admin admin, MultipartFile headImg);
 }
