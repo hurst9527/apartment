@@ -1,12 +1,16 @@
 package hxj.apartment.controller;
+
 import bean.Result;
 import bean.StatusCode;
-import hxj.apartment.bean.Brand;
-import hxj.apartment.service.BrandService;
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Brand;
+import hxj.apartment.feign.FileFeign;
+import hxj.apartment.service.BrandService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 /****
@@ -22,6 +26,15 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
+    @Autowired
+    private FileFeign fileFeign;
+
+    @PostMapping("/findByCateID")
+    public Result findByCateID(@RequestParam Integer cateID) {
+        List<Brand> brandList = brandService.findByCateID(cateID);
+        return new Result(true, StatusCode.OK, "查询成功", brandList);
+    }
+
     /***
      * Brand分页条件搜索实现
      * @param brand
@@ -29,7 +42,7 @@ public class BrandController {
      * @param size
      * @return
      */
-    @ApiOperation(value = "Brand条件分页查询",notes = "分页条件查询Brand方法详情",tags = {"BrandController"})
+    @ApiOperation(value = "Brand条件分页查询", notes = "分页条件查询Brand方法详情", tags = {"BrandController"})
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path", name = "page", value = "当前页", required = true, dataType = "Integer"),
             @ApiImplicitParam(paramType = "path", name = "size", value = "每页显示条数", required = true, dataType = "Integer")
@@ -108,23 +121,32 @@ public class BrandController {
      * @param brand
      * @return
      */
-    @ApiOperation(value = "Brand添加",notes = "添加Brand方法详情",tags = {"BrandController"})
+    @ApiOperation(value = "Brand添加", notes = "添加Brand方法详情", tags = {"BrandController"})
     @PostMapping
-    public Result add(@RequestBody  @ApiParam(name = "Brand对象",value = "传入JSON数据",required = true) Brand brand){
+    public Result add(@RequestBody Brand brand) {
         //调用BrandService实现添加Brand
         brandService.add(brand);
-        return new Result(true,StatusCode.OK,"添加成功");
+        return new Result(true, StatusCode.OK, "添加成功");
     }
+
+
+    @ApiOperation(value = "Brand添加", notes = "添加Brand方法详情", tags = {"BrandController"})
+    @PostMapping("/appendBrand")
+    public Result addBrand(Brand brand, Integer categoryId, @RequestParam(value = "file", required = false) MultipartFile multipartFile) {
+        brandService.addBrand(brand, categoryId, multipartFile);
+        return new Result(true, StatusCode.OK, "添加成功");
+    }
+
 
     /***
      * 根据ID查询Brand数据
      * @param id
      * @return
      */
-    @ApiOperation(value = "Brand根据ID查询",notes = "根据ID查询Brand方法详情",tags = {"BrandController"})
+    @ApiOperation(value = "Brand根据ID查询", notes = "根据ID查询Brand方法详情", tags = {"BrandController"})
     @ApiImplicitParam(paramType = "path", name = "id", value = "主键ID", required = true, dataType = "Integer")
     @GetMapping("/{id}")
-    public Result<Brand> findById(@PathVariable Integer id){
+    public Result<Brand> findById(@PathVariable Integer id) {
         //调用BrandService实现根据主键查询Brand
         Brand brand = brandService.findById(id);
         return new Result<Brand>(true,StatusCode.OK,"查询成功",brand);

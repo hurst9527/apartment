@@ -1,6 +1,9 @@
 package hxj.apartment.service;
-import hxj.apartment.bean.Brand;
+
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Brand;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 /****
  * @Author:HXJ
@@ -55,11 +58,28 @@ public interface BrandService {
      * @param id
      * @return
      */
-     Brand findById(Integer id);
+    Brand findById(Integer id);
 
     /***
      * 查询所有Brand
      * @return
      */
     List<Brand> findAll();
+
+    /**
+     * 根据分类查找相关品牌
+     *
+     * @param cateID
+     * @return
+     */
+    List<Brand> findByCateID(Integer cateID);
+
+    /**
+     * 新加品牌，并且和分类进行绑定
+     *
+     * @param brand         品牌信息
+     * @param categoryId    分类id
+     * @param multipartFile 品牌图片
+     */
+    void addBrand(Brand brand, Integer categoryId, MultipartFile multipartFile);
 }

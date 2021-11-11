@@ -2,6 +2,7 @@ package hxj.apartment.service;
 
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Sku;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -66,4 +67,6 @@ public interface SkuService {
      * @return
      */
     List<Sku> findAll();
+
+    void addSku(Sku sku, MultipartFile[] multipartFiles);
 }

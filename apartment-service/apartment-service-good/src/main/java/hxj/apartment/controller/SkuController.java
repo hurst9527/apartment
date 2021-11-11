@@ -4,10 +4,13 @@ import bean.Result;
 import bean.StatusCode;
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Sku;
+import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.SkuService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import util.SnowflakeIdWorker;
 
 import java.util.List;
 
@@ -23,6 +26,9 @@ public class SkuController {
 
     @Autowired
     private SkuService skuService;
+
+    @Autowired
+    private FileFeign fileFeign;
 
     /***
      * Sku分页条件搜索实现
@@ -105,6 +111,9 @@ public class SkuController {
         return new Result(true, StatusCode.OK, "修改成功");
     }
 
+    @Autowired
+    private SnowflakeIdWorker idWorker;
+
     /***
      * 新增Sku数据
      * @param sku
@@ -112,9 +121,29 @@ public class SkuController {
      */
     @ApiOperation(value = "Sku添加", notes = "添加Sku方法详情", tags = {"SkuController"})
     @PostMapping
-    public Result add(@RequestBody @ApiParam(name = "Sku对象", value = "传入JSON数据", required = true) Sku sku) {
+    public Result add(@ApiParam(name = "Sku对象", value = "传入JSON数据", required = true) Sku sku, @RequestParam("file") MultipartFile multipartFile) {
         //调用SkuService实现添加Sku
+        if (multipartFile != null) {
+            Result upload = fileFeign.upload(multipartFile);
+            sku.setImage(String.valueOf(upload.getResult()));
+        }
+        sku.setId(String.valueOf(idWorker.nextId()));
+        sku.setSn(String.valueOf(idWorker.nextId()));
+//        sku.setName();
         skuService.add(sku);
+        return new Result(true, StatusCode.OK, "添加成功");
+    }
+
+    /***
+     * 新增Sku数据
+     * @param sku
+     * @return
+     */
+    @ApiOperation(value = "Sku添加", notes = "添加Sku方法详情", tags = {"SkuController"})
+    @PostMapping("/addSku")
+    public Result addSku(@ApiParam(name = "Sku对象", value = "传入JSON数据", required = true) Sku sku, @RequestParam("file") MultipartFile[] multipartFiles) {
+        //调用SkuService实现添加Sku
+        skuService.addSku(sku, multipartFiles);
         return new Result(true, StatusCode.OK, "添加成功");
     }
 

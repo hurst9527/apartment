@@ -1,14 +1,23 @@
 package hxj.apartment.service.impl;
-import hxj.apartment.dao.BrandMapper;
-import hxj.apartment.bean.Brand;
-import hxj.apartment.service.BrandService;
+
+import bean.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Brand;
+import hxj.apartment.bean.CategoryBrand;
+import hxj.apartment.dao.BrandMapper;
+import hxj.apartment.feign.FileFeign;
+import hxj.apartment.service.BrandService;
+import hxj.apartment.service.CategoryBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
+
 import java.util.List;
+
 /****
  * @Author:HXJ
  * @Description:Brand业务层接口实现类
@@ -19,16 +28,22 @@ public class BrandServiceImpl implements BrandService {
     @Autowired
     private BrandMapper brandMapper;
 
+    @Autowired
+    private FileFeign fileFeign;
+
+    @Autowired
+    private CategoryBrandService categoryBrandService;
 
     /**
      * Brand条件+分页查询
+     *
      * @param brand 查询条件
-     * @param page 页码
-     * @param size 页大小
+     * @param page  页码
+     * @param size  页大小
      * @return 分页结果
      */
     @Override
-    public PageInfo<Brand> findPage(Brand brand, int page, int size){
+    public PageInfo<Brand> findPage(Brand brand, int page, int size) {
         //分页
         PageHelper.startPage(page,size);
         //搜索条件构建
@@ -70,17 +85,29 @@ public class BrandServiceImpl implements BrandService {
      * @param brand
      * @return
      */
-    public Example createExample(Brand brand){
-        Example example=new Example(Brand.class);
+    public Example createExample(Brand brand) {
+        Example example = new Example(Brand.class);
         Example.Criteria criteria = example.createCriteria();
-        if(brand!=null){
-            // 
-            if(!StringUtils.isEmpty(brand.getId())){
-                    criteria.andEqualTo("id",brand.getId());
+        if (brand != null) {
+            // 品牌id
+            if (!StringUtils.isEmpty(brand.getId())) {
+                criteria.andEqualTo("id", brand.getId());
             }
-            // 
-            if(!StringUtils.isEmpty(brand.getBrand())){
-                    criteria.andEqualTo("brand",brand.getBrand());
+            // 品牌名称
+            if (!StringUtils.isEmpty(brand.getName())) {
+                criteria.andLike("name", "%" + brand.getName() + "%");
+            }
+            // 品牌图片地址
+            if (!StringUtils.isEmpty(brand.getImage())) {
+                criteria.andEqualTo("image", brand.getImage());
+            }
+            // 品牌的首字母
+            if (!StringUtils.isEmpty(brand.getLetter())) {
+                criteria.andEqualTo("letter", brand.getLetter());
+            }
+            // 排序
+            if (!StringUtils.isEmpty(brand.getSeq())) {
+                criteria.andEqualTo("seq", brand.getSeq());
             }
         }
         return example;
@@ -125,10 +152,43 @@ public class BrandServiceImpl implements BrandService {
 
     /**
      * 查询Brand全部数据
+     *
      * @return
      */
     @Override
     public List<Brand> findAll() {
         return brandMapper.selectAll();
+    }
+
+    /**
+     * 根据分类查找相关品牌
+     *
+     * @param cateID
+     * @return
+     */
+    @Override
+    public List<Brand> findByCateID(Integer cateID) {
+        return brandMapper.findByCateID(cateID);
+    }
+
+    /**
+     * 新加品牌，并且和分类进行绑定
+     *
+     * @param brand         品牌信息
+     * @param categoryId    分类id
+     * @param multipartFile 品牌图片
+     */
+    @Override
+    @Transactional
+    public void addBrand(Brand brand, Integer categoryId, MultipartFile multipartFile) {
+        if (multipartFile != null) {
+            Result upload = fileFeign.upload(multipartFile);
+            brand.setImage(String.valueOf(upload.getResult()));
+        }
+        add(brand);
+        CategoryBrand categoryBrand = new CategoryBrand();
+        categoryBrand.setCategoryId(categoryId);
+        categoryBrand.setBrandId(brand.getId());
+        categoryBrandService.add(categoryBrand);
     }
 }

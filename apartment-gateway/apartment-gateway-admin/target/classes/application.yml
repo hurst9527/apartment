@@ -21,7 +21,7 @@ spring:
         - id: apartment_good_route
           uri: http://localhost:18083
           predicates:
-            - Path=/good/**,/category/**,/brand/**
+            - Path=/category/**,/brand/**,/categoryBrand/**,/powerprice/**,/sku/**,/spec/**,/template/**
 
         - id: apartment_order_route
           uri: http://localhost:18084

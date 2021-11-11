@@ -1,15 +1,21 @@
 package hxj.apartment.service.impl;
 
+import bean.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Sku;
 import hxj.apartment.dao.SkuMapper;
+import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.SkuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
+import util.SnowflakeIdWorker;
 
+import java.util.Date;
 import java.util.List;
 
 /****
@@ -22,6 +28,13 @@ public class SkuServiceImpl implements SkuService {
     @Autowired
     private SkuMapper skuMapper;
 
+
+    @Autowired
+    private FileFeign fileFeign;
+
+
+    @Autowired
+    private SnowflakeIdWorker idWorker;
 
     /**
      * Sku条件+分页查询
@@ -192,7 +205,7 @@ public class SkuServiceImpl implements SkuService {
      */
     @Override
     public void add(Sku sku) {
-        skuMapper.insert(sku);
+        skuMapper.insertSelective(sku);
     }
 
     /**
@@ -214,5 +227,29 @@ public class SkuServiceImpl implements SkuService {
     @Override
     public List<Sku> findAll() {
         return skuMapper.selectAll();
+    }
+
+    @Override
+    @Transactional
+    public void addSku(Sku sku, MultipartFile[] multipartFiles) {
+        String images = "{";
+        if (multipartFiles.length != 0) {
+            for (int i = 0; i < multipartFiles.length; i++) {
+                Result upload = fileFeign.upload(multipartFiles[i]);
+                images += upload.getResult() + ",";
+                if (i == 1) {
+                    sku.setImage(String.valueOf(upload.getResult()));
+                }
+            }
+            images = images.substring(0, images.length() - 1);
+        }
+        images += "}";
+        sku.setImages(images);
+        sku.setId(String.valueOf(idWorker.nextId()));
+        sku.setSn(String.valueOf(idWorker.nextId()));
+        sku.setCreateTime(new Date());
+        sku.setUpdateTime(new Date());
+        sku.setName("sfdsdf");
+        add(sku);
     }
 }

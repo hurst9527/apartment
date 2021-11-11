@@ -11,13 +11,16 @@ spring:
     name: good
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://121.196.146.187:3306/apartment_goods?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT&useSSL=false&wait_timeout=86400
+    url: jdbc:mysql://121.196.146.187:3306/apartment_goods?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&wait_timeout=86400
     username: hxj
     password: HXJ010425.
     hikari:
       max-lifetime: 180000
 server:
   port: 18083
+  jetty:
+    accesslog:
+      time-zone: Asia/Shanghai
 feign:
   hystrix:
     enabled: true
@@ -36,3 +39,7 @@ hystrix:
 ribbon:
   ReadTimeout: 30000
   ConnectTimeout: 30000
+snowflake:
+  conf:
+    workerId: 1
+    datacenterId: 1
