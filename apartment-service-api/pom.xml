@@ -17,6 +17,7 @@
         <module>apartment-service-admin-api</module>
         <module>apartment-service-require-api</module>
         <module>apartment-service-good-api</module>
+        <module>apartment-service-search-api</module>
     </modules>
 
     <properties>

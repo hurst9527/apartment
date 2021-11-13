@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableEurekaClient
 @EnableFeignClients
-@SpringBootApplication(exclude =  {DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class FastDFSApplication {
     public static void main(String[] args) {
         SpringApplication.run(FastDFSApplication.class,args);

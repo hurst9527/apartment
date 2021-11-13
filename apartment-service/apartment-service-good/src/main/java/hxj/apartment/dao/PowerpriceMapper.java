@@ -1,4 +1,5 @@
 package hxj.apartment.dao;
+
 import hxj.apartment.bean.Powerprice;
 import tk.mybatis.mapper.common.Mapper;
 
