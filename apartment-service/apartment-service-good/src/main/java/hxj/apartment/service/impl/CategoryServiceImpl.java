@@ -128,7 +128,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public void update(Category category){
-        categoryMapper.updateByPrimaryKey(category);
+        categoryMapper.updateByPrimaryKeySelective(category);
     }
 
     /**
@@ -137,7 +137,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public void add(Category category){
-        categoryMapper.insert(category);
+        categoryMapper.insertSelective(category);
     }
 
     /**

@@ -17,8 +17,8 @@
         <module>apartment-service</module>
         <module>apartment-service-api</module>
         <module>apartment-web</module>
-        <module>apartment-common</module>
         <module>apartment-common-db</module>
+        <module>apartment-common</module>
         <module>apartment-Eureka</module>
         <module>apartment-gateway</module>
     </modules>

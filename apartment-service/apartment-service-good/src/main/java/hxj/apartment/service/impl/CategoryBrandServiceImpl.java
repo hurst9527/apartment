@@ -110,7 +110,7 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
      */
     @Override
     public void update(CategoryBrand categoryBrand) {
-        categoryBrandMapper.updateByPrimaryKey(categoryBrand);
+        categoryBrandMapper.updateByPrimaryKeySelective(categoryBrand);
     }
 
     /**
@@ -120,7 +120,7 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
      */
     @Override
     public void add(CategoryBrand categoryBrand) {
-        categoryBrandMapper.insert(categoryBrand);
+        categoryBrandMapper.insertSelective(categoryBrand);
     }
 
     /**

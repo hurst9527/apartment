@@ -16,6 +16,7 @@
         <module>apartment-service-admin</module>
         <module>apartment-service-order</module>
         <module>apartment-service-good</module>
+        <module>apartment-service-search</module>
     </modules>
 
     <properties>
