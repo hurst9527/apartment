@@ -1,10 +1,10 @@
 package hxj.apartment.service.impl;
 
-import bean.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Admin;
 import hxj.apartment.bean.AdminInfo;
+import hxj.apartment.bean.Result;
 import hxj.apartment.dao.AdminMapper;
 import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.AdminService;

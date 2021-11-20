@@ -1,6 +1,6 @@
 package hxj.apartment.feign;
 
-import bean.Result;
+import hxj.apartment.bean.Result;
 import hxj.apartment.bean.Sku;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public interface skuFeign {
     @GetMapping("/sku")
     Result<List<Sku>> findAll();
 
-    @GetMapping("/{id}")
-    Result<Sku> findById(@PathVariable String id);
+    @GetMapping("/sku/{id}")
+    Result<Sku> findById(@PathVariable(name = "id") String id);
 
 }

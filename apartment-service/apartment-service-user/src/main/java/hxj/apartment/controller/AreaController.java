@@ -1,9 +1,9 @@
 package hxj.apartment.controller;
 
-import bean.Result;
-import bean.StatusCode;
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Area;
+import hxj.apartment.bean.Result;
+import hxj.apartment.bean.StatusCode;
 import hxj.apartment.service.AreaService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;

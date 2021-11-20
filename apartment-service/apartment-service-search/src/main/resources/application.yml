@@ -13,11 +13,13 @@ spring:
     elasticsearch:
       cluster-name: docker-cluster
       cluster-nodes: 42.194.148.173:9300
-server:
-  port: 18088
+
+  main:
+    allow-bean-definition-overriding: true
+
 feign:
   hystrix:
-    enabled: true
+    enabled: false
   httpclient:
     connection-timeout: 150000
 hystrix:
@@ -29,7 +31,8 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 900000
-#ribbon的超时时间
 ribbon:
-  ReadTimeout: 300000
-  ConnectTimeout: 300000
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+server:
+  port: 18088

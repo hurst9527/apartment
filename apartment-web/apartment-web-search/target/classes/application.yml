@@ -1,0 +1,38 @@
+server:
+  port: 9001
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+  instance:
+    prefer-ip-address: true
+
+spring:
+  thymeleaf:
+    #构建URL时预先查看名称的前缀，默认就是这个，写在这里是怕忘了怎么配置
+    prefix: classpath:/templates/
+    suffix: .html   #后缀
+    cache: false    #禁止缓存
+  application:
+    name: Web-Search
+  main:
+    allow-bean-definition-overriding: true
+
+feign:
+  hystrix:
+    enabled: true
+  application:
+    name: search-web
+
+# 不配置下面两个的话可能会报timed-out and no fallback available异常
+ribbon:
+  ReadTimeout: 500000   # Feign请求读取数据超时时间
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 50000   # feign连接超时时间
+

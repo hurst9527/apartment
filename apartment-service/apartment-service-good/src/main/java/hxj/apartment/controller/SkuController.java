@@ -1,9 +1,9 @@
 package hxj.apartment.controller;
 
-import bean.Result;
-import bean.StatusCode;
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Result;
 import hxj.apartment.bean.Sku;
+import hxj.apartment.bean.StatusCode;
 import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.SkuService;
 import io.swagger.annotations.*;
@@ -88,7 +88,7 @@ public class SkuController {
     @ApiOperation(value = "Sku根据ID删除", notes = "根据ID删除Sku方法详情", tags = {"SkuController"})
     @ApiImplicitParam(paramType = "path", name = "id", value = "主键ID", required = true, dataType = "String")
     @DeleteMapping(value = "/{id}")
-    public Result delete(@PathVariable String id) {
+    public Result delete(@PathVariable(name = "id") String id) {
         //调用SkuService实现根据主键删除
         skuService.delete(id);
         return new Result(true, StatusCode.OK, "删除成功");

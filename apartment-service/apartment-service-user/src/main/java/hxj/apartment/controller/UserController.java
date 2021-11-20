@@ -1,9 +1,9 @@
 package hxj.apartment.controller;
 
-import bean.Result;
-import bean.StatusCode;
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.AdminInfo;
+import hxj.apartment.bean.Result;
+import hxj.apartment.bean.StatusCode;
 import hxj.apartment.bean.User;
 import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.UserService;

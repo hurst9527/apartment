@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "feign.main.allow-bean-definition-overriding",
+      "type": "java.lang.String",
+      "description": "Description for feign.main.allow-bean-definition-overriding."
+    }
+  ]
+}

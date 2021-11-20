@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>商城管理</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- site icon -->
+    <link rel="icon" href="/images/fevicon.png" type="image/png"/>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <!-- site css -->
+    <link rel="stylesheet" href="/css/style.css"/>
+    <!-- responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css"/>
+    <!-- color css -->
+    <link rel="stylesheet" href="/css/colors.css"/>
+    <!-- select bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap-select.css"/>
+    <!-- scrollbar css -->
+    <link rel="stylesheet" href="/css/perfect-scrollbar.css"/>
+    <!-- custom css -->
+    <link rel="stylesheet" href="/css/custom.css"/>
+    <!-- calendar file css -->
+    <link rel="stylesheet" href="/js/semantic.min.css"/>
+    <!-- fancy box js -->
+    <link rel="stylesheet" href="/css/jquery.fancybox.css"/>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+          integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <!--   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"-->
+    <!--      integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">-->
+    <!--   </script>-->
+    <style>
+        #PromptBox {
+            position: fixed;
+            z-index: 99999999;
+            left: 50%;
+            top: 20%;
+            width: 300px;
+            height: 45px;
+            margin-left: -150px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 45px;
+            color: white;
+            font-size: 18px;
+            font-weight: 550;
+            background-color: rgb(90, 70, 70);
+            display: none;
+        }
+
+        .pagination li {
+            width: 28px;
+            font-size: 19px;
+        }
+
+        #pageDIV {
+            width: 600px;
+            margin: 0 auto;
+        }
+
+
+        .activeClass {
+            color: rgb(107, 158, 255);
+            border-bottom: 3px solid rgb(107, 158, 255);
+        }
+
+        .disActiveClass {
+            border-bottom: 3px solid rgb(0, 0, 0);
+        }
+
+        .searchSpec {
+            width: 150px;
+            border-radius: 5px;
+            height: 32px;
+            text-indent: 7px;
+            color: black;
+        }
+
+        #GoodsTable th {
+            text-align: center;
+        }
+
+        .goodImg {
+            border-radius: 7%;
+            cursor: pointer;
+            transition: all 0.6s;
+        }
+
+        .goodImg:hover {
+            transform: scale(1.65);
+            z-index: 99999999;
+        }
+    </style>
+
+</head>
+
+<body class="inner_page tables_page">
+<div id="PromptBox">
+    请求失败，请稍后重试..
+</div>
+<div class="full_container">
+    <div class="inner_container">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar_blog_1">
+                <div class="sidebar-header">
+                    <!-- <div class="logo_section">
+                       <a href="index.html"><img class="logo_icon img-responsive" src="images/logo/logo_icon.png"
+                             alt="#" /></a>
+                    </div> -->
+                </div>
+                <div class="sidebar_user_info">
+                    <div class="icon_setting"></div>
+                    <div class="user_profle_side">
+                        <div class="user_img"><img class="img-responsive" src="/images/layout_img/user_img.jpg"
+                                                   alt="#"/>
+                        </div>
+                        <div class="user_info">
+                            <h6>John David</h6>
+                            <p><span class="online_animation"></span> Online</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar_blog_2">
+
+                <h4>住户-房号</h4>
+                <ul class="list-unstyled components">
+                    <li>
+                        <a href="#element" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                                class="fa fa-shopping-cart"></i>
+                            <span>公寓商城</span></a>
+                        <span>公寓商城</span></a>
+                        <ul class="collapse list-unstyled" id="element">
+                            <li><a href="addGood.html">> <span>添加商品</span></a>
+                            </li>
+                            <li><a href="shopping.html">> <span>商品管理</span></a></li>
+                        </ul>
+                    </li>
+                    <li><a href="order.html"><i class="fa fa-check-square"></i> <span>订单审核</span></a></li>
+                    <li><a href="userManage.html"><i class="fa fa-users"></i> <span>住户管理</span></a></li>
+                    <li><a href="power.html"><i class="fa fa-flash"></i> <span>水电登记</span></a></li>
+                    <li><a href="adminManage.html"><i class="fa fa-key"></i> <span>管理员管理</span></a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- end sidebar -->
+        <!-- right content -->
+        <div id="content">
+            <!-- topbar -->
+            <div class="topbar">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="full">
+                        <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i
+                                class="fa fa-bars"></i></button>
+                        <div class="logo_section">
+                            <a href="index.html"><img class="img-responsive" src="/images/logo/logo.png" alt="#"/></a>
+                        </div>
+                        <span style="color: white;float: right;margin-right: 30px;margin-top: 11px;">
+                        <form action="/search" style="float: right;" method="get">
+                           <span>
+                              关键词：
+                              <input type="text" name="name" class="searchSpec">
+                           </span>
+                           &nbsp;分类：
+                           <span>
+                              <input type="text" name="category" class="searchSpec">
+                           </span>
+                           &nbsp;品牌：
+                           <span>
+                              <input type="text" name="brand" class="searchSpec">
+                           </span>
+                           <span>
+                              &nbsp;&nbsp;
+                              <button type="submit" class="btn" style="background-color: rgb(255, 113, 63);color:
+                                             white;height: 32px;">查&nbsp;询</button>&nbsp;&nbsp;
+                              <button type="button" class="btn" onclick="reChose()"
+                                      style="color:rgb(99, 109, 14);height: 32px;">重&nbsp;置</button>
+                           </span>
+                        </form>
+                     </span>
+                    </div>
+                </nav>
+
+            </div>
+            <!-- end topbar -->
+            <!-- dashboard inner -->
+            <div class="midde_cont">
+                <div class="container-fluid">
+                    <div class="row column_title">
+                        <div class="col-md-12">
+                            <div class="page_title">
+                                <h3>商品总数：<span th:text="${result.pageInfo.totalElements}"></span></h3>
+                                <div style="float:right;line-height: 20px;margin-bottom: 28px;">
+                                    <h4 style="display: inline;">上架数量：</h4>
+                                    <h4 style="display: inline;">下架数量：</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- row -->
+                    <div class="row">
+                        <!-- 表单 -->
+                        <div class="col-md-12">
+                            <div class="white_shd full margin_bottom_30">
+                                <div class="full graph_head" style="display: inline-block;">
+                                    <div class="heading1 margin_0 row">
+                                        <div class="row" style="margin-left: 10px;">
+                                    <span>
+                                       <h4><a class="activeClass nowClass" id="allGood"
+                                              th:href="${#maps.containsKey(searchMap,'status')}? @{${#strings.replace(url,'&status='+searchMap.status,'')}} : @{${url}}">全部商品</a>&nbsp;&nbsp;</h4>
+                                    </span>
+                                            <span>
+                                       <h4><a class="disActiveClass nowClass" id="onGood"
+                                              th:href="${#maps.containsKey(searchMap,'status')}? @{${#strings.replace(url,'status='+searchMap.status,'status=1')}} : @{${url}(status=1)}">上架中</a>&nbsp;&nbsp;</h4>
+                                    </span>
+                                            <span>
+                                       <h4><a class="disActiveClass nowClass" id="downGood"
+                                              th:href="${#maps.containsKey(searchMap,'status')}? @{${#strings.replace(url,'status='+searchMap.status,'status=0')}} : @{${url}(status=0)}">已下架</a>&nbsp;&nbsp;</h4>
+                                    </span>
+                                            <span>
+                                       <h4><a class="disActiveClass nowClass" id="delGood"
+                                              th:href="${#maps.containsKey(searchMap,'status')}? @{${#strings.replace(url,'status='+searchMap.status,'status=2')}} : @{${url}(status=2)}">回收站</a>&nbsp;&nbsp;</h4>
+                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table_section padding_infor_info">
+                                    <div class="table-responsive-sm">
+                                        <table class="table table-hover" id="GoodsTable"
+                                               style="text-align: center; table-layout:fixed ;">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 95px;">编号</th>
+                                                <th style="width: 3px;"></th>
+                                                <th style="width: 230px;">sku名称</th>
+                                                <th style="width: 90px;">商品图片</th>
+                                                <th style="width: 90px;">归类</th>
+                                                <th style="width: 130px;">品牌</th>
+                                                <th style="width: 80px;">价格(元)</th>
+                                                <th style="width: 300px;">参数规格</th>
+                                                <th style="width: 80px;">销量</th>
+                                                <th style="width: 90px;">库存数量</th>
+                                                <th style="width: 80px;">上架</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="GoodsTbody">
+                                            <tr th:each="sku,skuStu:${result.skuList}">
+                                                <td th:text="${sku.id}">1000</td>
+                                                <td></td>
+                                                <td th:text="${#strings.abbreviate(sku.name,45)}">1000</td>
+                                                <td>
+                                                    <img src="" class="goodImg" width="80px" height="80px"
+                                                         th:src="${sku.image}" alt="">
+                                                <td th:text="${sku.categoryName}">1000</td>
+                                                <td th:text="${sku.brandName}">1000</td>
+                                                <td th:text="${sku.price}">1000</td>
+                                                <td th:text="${sku.spec}">1000</td>
+                                                <td th:text="${sku.saleNum}">1000</td>
+                                                <td th:text="${sku.num}">1000</td>
+                                                <td th:switch="${sku.status}">
+                                                    <input type="checkbox"
+                                                           th:onclick="'changeGoodStatus('+${sku.id}+')'"
+                                                           th:value="${sku.id}" th:case="0"/>
+                                                    <input type="checkbox"
+                                                           th:onclick="'changeGoodStatus('+${sku.id}+')'"
+                                                           th:value="${sku.id}" th:case="1" checked/>
+                                                    <input type="checkbox"
+                                                           th:onclick="'changeGoodStatus('+${sku.id}+')'"
+                                                           th:value="${sku.id}" th:case="2"/>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div id="pageDIV">
+                                            <ul class="pagination">
+                                                <li th:if="${result.pageInfo.page-1}>=0">
+                                                    <a aria-label="Previous"
+                                                       th:href="@{${#strings.replace(url,'page='+searchMap.page,'')}(page=${result.pageInfo.page-1})}">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="${#maps.containsKey(searchMap,'page')} ?
+                                                                ${#strings.replace(url,'page='+searchMap.page,'page='+(result.pageInfo.page-4))}:
+                                                                @{${url}(page=${result.pageInfo.page-4})}"
+                                                       th:text="${result.pageInfo.page-4+1}"
+                                                       th:if="(${result.pageInfo.page-4}>=0) and (${result.pageInfo.page+3}>${result.pageInfo.totalPage})">
+                                                        1</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="${#maps.containsKey(searchMap,'page')} ?
+                                                                ${#strings.replace(url,'page='+searchMap.page,'page='+(result.pageInfo.page-3))}:
+                                                                @{${url}(page=${result.pageInfo.page-3})}"
+                                                       th:text="${result.pageInfo.page-3+1}"
+                                                       th:if="(${result.pageInfo.page-3}>=0) and (${result.pageInfo.page+2}>${result.pageInfo.totalPage})">
+                                                        1</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="${#maps.containsKey(searchMap,'page')} ?
+                                                                ${#strings.replace(url,'page='+searchMap.page,'page='+(result.pageInfo.page-2))}:
+                                                                @{${url}(page=${result.pageInfo.page-2})}"
+                                                       th:text="${result.pageInfo.page-2+1}"
+                                                       th:if="${result.pageInfo.page-2}>=0">1</a></li>
+                                                <li>
+                                                    <a th:href="${#maps.containsKey(searchMap,'page')} ?
+                                                                ${#strings.replace(url,'page='+searchMap.page,'page='+(result.pageInfo.page-1))}:
+                                                                @{${url}(page=${result.pageInfo.page-1})}"
+                                                       th:text="${result.pageInfo.page-1+1}"
+                                                       th:if="${result.pageInfo.page-1}>=0">2</a></li>
+                                                <li><span style="color: black;"
+                                                          th:text="${result.pageInfo.page+1}">3</span></li>
+                                                <li>
+                                                    <a th:href="${#maps.containsKey(searchMap,'page')} ?
+                                                                ${#strings.replace(url,'page='+searchMap.page,'page='+(result.pageInfo.page+1))}:
+                                                                @{${url}(page=${result.pageInfo.page+1})}"
+                                                       th:text="${result.pageInfo.page+1+1}"
+                                                       th:if="${result.pageInfo.page+1}<${result.pageInfo.totalPage}">4</a>
+
+                                                </li>
+                                                <li>
+                                                    <a th:href="${#maps.containsKey(searchMap,'page')} ?
+                                                                 ${#strings.replace(url,'page='+searchMap.page,'page='+(result.pageInfo.page+2))}:
+                                                                @{${url}(page=${result.pageInfo.page+2})}"
+                                                       th:text="${result.pageInfo.page+2+1}"
+                                                       th:if="${result.pageInfo.page+2}<${result.pageInfo.totalPage}">5</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="${#maps.containsKey(searchMap,'page')} ?
+                                                                ${#strings.replace(url,'page='+searchMap.page,'page='+(result.pageInfo.page+3))}:
+                                                                @{${url}(page=${result.pageInfo.page+3})}"
+                                                       th:text="${result.pageInfo.page+3+1}"
+                                                       th:if="${result.pageInfo.page-1}<0 and ${result.pageInfo.page+3}<=${result.pageInfo.totalPage}">1</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="${#maps.containsKey(searchMap,'page')} ?
+                                                                ${#strings.replace(url,'page='+searchMap.page,'page='+(result.pageInfo.page+4))}:
+                                                                @{${url}(page=${result.pageInfo.page+4})}"
+                                                       th:text="${result.pageInfo.page+4+1}"
+                                                       th:if="${result.pageInfo.page-3}<0  and ${result.pageInfo.page+4}<=${result.pageInfo.totalPage}">2</a>
+                                                </li>
+                                                <li th:if="${result.pageInfo.page+1}<${result.pageInfo.totalPage}">
+                                                    <a aria-label="Next"
+                                                       th:href="${#maps.containsKey(searchMap,'page')} ?
+                                                                ${#strings.replace(url,'page='+searchMap.page,'page='+(result.pageInfo.page+1))}:
+                                                                @{${url}(page=${result.pageInfo.page+1})}">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                                <span style="line-height: 30px; margin-top: 6px;margin-left: 10px;">总共&nbsp;
+                                                    <span style="font-size: large;"
+                                                          th:text="${result.pageInfo.totalPage}">10</span>&nbsp;页</span>
+                                                &nbsp;/&nbsp;
+                                                <span style="line-height: 30px;">去到
+                                              <span>
+                                                 <input id="gotoPageNo"
+                                                        style="width: 30px;height: 20px;text-align: center;border: 0px ;border-bottom: 1px solid black;"
+                                                        type="text">
+                                              </span>页
+                                              <button id="toPageBtn"
+                                                      style="border: none;background-color: rgba(240, 248, 255, 0);"
+                                                      type="button">跳转</button>
+                                                </span>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- row -->
+                </div>
+                <!-- footer -->
+                <div class="container-fluid">
+
+                    <div class="footer">
+                        <p>Copyright &copy; 2020.Company name All rights reserved.<a target="_blank"
+                                                                                     href="https://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- end dashboard inner -->
+        </div>
+    </div>
+    <!-- model popup -->
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Modal body..
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end model popup -->
+</div>
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.j"></script>
+<!-- wow animation -->
+<script src="/js/animate.js"></script>
+<!-- select country -->
+<script src="/js/bootstrap-select.js"></script>
+<!-- owl carousel -->
+<script src="/js/owl.carousel.js"></script>
+<!-- chart js -->
+<script src="/js/Chart.min.js"></script>
+<script src="/js/Chart.bundle.min.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/analyser.js"></script>
+<!-- nice scrollbar -->
+<script src="/js/perfect-scrollbar.min.js"></script>
+<!-- fancy box js -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return (false);
+    }
+
+    var status = getQueryVariable("status");
+    if (status == 1) {
+        $(".nowClass").removeClass("activeClass");
+        $(".nowClass").removeClass("disActiveClass");
+        $("#onGood").prevAll().addClass("disActiveClass");
+        $("#onGood").nextAll().addClass("disActiveClass");
+        $("#onGood").addClass("activeClass");
+    }
+    if (status == 0) {
+        $(".nowClass").removeClass("activeClass");
+        $(".nowClass").removeClass("disActiveClass");
+        $("#downGood").prevAll().addClass("disActiveClass");
+        $("#downGood").nextAll().addClass("disActiveClass");
+        $("#downGood").addClass("activeClass");
+    }
+    if (status == 2) {
+        $(".nowClass").removeClass("activeClass");
+        $(".nowClass").removeClass("disActiveClass");
+        $("#delGood").prevAll().addClass("disActiveClass");
+        $("#delGood").nextAll().addClass("disActiveClass");
+        $("#delGood").addClass("activeClass");
+    }
+    function reChose(){
+        window.location.href="/search"
+    }
+
+    function changeGoodStatus(id) {
+        alert(id);
+        if($(this).is(':checked')){
+            var status = "1"
+        }else {var status="0";}
+        // var myJson = {};
+        // myJson[searchKey] = searchValue;
+        $.ajax({
+            type: "put", //提交的方法
+            url: "http://127.0.0.1:18083/sku/" + id, //提交的地址
+            async: true,
+            data: JSON.stringify({"status": status}),
+            contentType: "application/json",
+            error: function (request) { //失败的话
+                pormptBox(2000, "更改状态失败..")
+            },
+            success: function (data) { //成功
+            }
+        });
+        window.location.reload();
+    }
+
+</script>
+<script src="/js/jquery.fancybox.min.js"></script>
+<!-- custom js -->
+<script src="/js/custom.js"></script>
+<script src="/js/semantic.min.js"></script>
+<script src="/js/myUtil.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script>
+
+</script>
+</body>
+
+</html>

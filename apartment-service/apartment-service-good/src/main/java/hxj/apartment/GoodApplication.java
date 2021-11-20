@@ -15,7 +15,7 @@ import util.SnowflakeIdWorker;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableFeignClients
-@MapperScan("hxj.apartment.dao")
+@MapperScan({"hxj.apartment.dao"})
 public class GoodApplication {
     public static void main(String[] args) {
         SpringApplication.run(GoodApplication.class, args);

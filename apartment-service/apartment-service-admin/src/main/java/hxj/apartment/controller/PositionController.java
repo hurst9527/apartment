@@ -1,12 +1,14 @@
 package hxj.apartment.controller;
-import bean.Result;
-import bean.StatusCode;
-import hxj.apartment.bean.Position;
-import hxj.apartment.service.PositionService;
+
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Position;
+import hxj.apartment.bean.Result;
+import hxj.apartment.bean.StatusCode;
+import hxj.apartment.service.PositionService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /****
