@@ -1,7 +1,7 @@
 package hxj.apartment.feign;
 
-import bean.Result;
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Result;
 import hxj.apartment.bean.User;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;

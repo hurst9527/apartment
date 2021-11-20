@@ -1,9 +1,9 @@
 package hxj.apartment.service.impl;
 
-import bean.Result;
-import bean.skuInfo;
 import com.alibaba.fastjson.JSON;
+import hxj.apartment.bean.Result;
 import hxj.apartment.bean.Sku;
+import hxj.apartment.bean.skuInfo;
 import hxj.apartment.dao.searchMapper;
 import hxj.apartment.feign.skuFeign;
 import hxj.apartment.service.searchService;
@@ -15,7 +15,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -40,10 +40,10 @@ public class searchServiceImpl implements searchService {
     private ElasticsearchTemplate elasticsearchTemplate;
 
     @Override
-    public Map<String, Object> search(Map<String, String> searchMap) {
+    public Map<String, Object> search(Map<String, String> searchMap, Pageable pageable) {
         //封装搜索结果进行返回
-        Map<String, Object> resultmap = new HashMap<>();
-        NativeSearchQueryBuilder nativeSearchQueryBuilder = buildBaseQueryBuilder(searchMap);
+        Map<String, Object> resultmap = new LinkedHashMap<>();
+        NativeSearchQueryBuilder nativeSearchQueryBuilder = buildBaseQueryBuilder(searchMap,pageable);
         //      nativeSearchQueryBuilder.build()根据构建器构建搜索条件,skuInfo.class将结果封装为skuInfo
         AggregatedPage<skuInfo> skuInfos = elasticsearchTemplate.queryForPage(nativeSearchQueryBuilder.build(), skuInfo.class);
 
@@ -61,18 +61,23 @@ public class searchServiceImpl implements searchService {
             ArrayList<String> categoryList = getCategoryList(nativeSearchQueryBuilder);
             resultmap.put("categoryList", categoryList);
         }
-        //用户点击了分类，即传入了分类数据，就不需要再对分类进行分组查询
+        //用户点击了分类，即传入了品牌数据，就不需要再对品牌进行分组查询
         if (StringUtils.isEmpty(searchMap.get("brand"))) {
             ArrayList<String> brandList = getBrandList(nativeSearchQueryBuilder);
             resultmap.put("brandList", brandList);
         }
         HashMap<String, Set<String>> specList = getSpecList(nativeSearchQueryBuilder);
         resultmap.put("specList", specList);
-        resultmap.put("totalPage", totalPages);
-        resultmap.put("totalElements", totalElements);
         resultmap.put("skuList", skuInfoList);
+        LinkedHashMap<String, Object> pageInfo = new LinkedHashMap<>();
+        pageInfo.put("page", pageable.getPageNumber());
+        pageInfo.put("size", pageable.getPageSize());
+        pageInfo.put("totalPage", totalPages);
+        pageInfo.put("totalElements", totalElements);
+        resultmap.put("pageInfo", pageInfo);
         return resultmap;
     }
+
 
 
     /**
@@ -153,7 +158,7 @@ public class searchServiceImpl implements searchService {
      * @param searchMap   搜索条件
      * @return NativeSearchQueryBuilder  条件构造器
      */
-    private NativeSearchQueryBuilder buildBaseQueryBuilder(Map<String, String> searchMap) {
+    private NativeSearchQueryBuilder buildBaseQueryBuilder(Map<String, String> searchMap,Pageable pageable) {
         //构建搜索条件构建器
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
 
@@ -188,6 +193,10 @@ public class searchServiceImpl implements searchService {
             if (!StringUtils.isEmpty(brand)) {
                 boolQueryBuilder.must(QueryBuilders.termQuery("brandName", brand));
             }
+            String status = searchMap.get("status");
+            if (!StringUtils.isEmpty(status)) {
+                boolQueryBuilder.must(QueryBuilders.termQuery("status", status));
+            }
             // 遍历searchMap，找出所有以spec_开头的参数，作为规格域的搜索
             for (Map.Entry<String, String> searchEntry : searchMap.entrySet()) {
                 String searchKey = searchEntry.getKey();
@@ -215,19 +224,20 @@ public class searchServiceImpl implements searchService {
             /**
              * 分页搜索(page=1)
              */
-            Integer currPageNo = 1;
-            Integer pageSize = 30;//默认搜索30条信息
-            if (!StringUtils.isEmpty(searchMap.get("page"))) {
-                currPageNo = Integer.parseInt(searchMap.get("page"));
-            }
-            nativeSearchQueryBuilder.withPageable(PageRequest.of(currPageNo - 1, pageSize));
-
+//            Integer currPageNo = 1;
+//            Integer pageSize = 30;//默认搜索30条信息
+//            if (!StringUtils.isEmpty(searchMap.get("page"))) {
+//                currPageNo = Integer.parseInt(searchMap.get("page"));
+//            }
+//            nativeSearchQueryBuilder.withPageable(PageRequest.of(currPageNo - 1, pageSize));
+            nativeSearchQueryBuilder.withPageable(pageable);
             /**
              * 排序功能(sortField=销量&sortRule=DESC)
              */
             String sortField = searchMap.get("sortField");
-            String sortRule = searchMap.get("sortRule").toUpperCase();
+            String sortRule = searchMap.get("sortRule");
             if (!StringUtils.isEmpty(sortField) && !StringUtils.isEmpty(sortRule)) {
+                sortRule = sortRule.toUpperCase();
                 nativeSearchQueryBuilder.withSort(SortBuilders.fieldSort(sortField).order(SortOrder.valueOf(sortRule)));
             }
         }

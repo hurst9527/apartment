@@ -1,6 +1,6 @@
 package hxj.apartment.dao;
 
-import bean.skuInfo;
+import hxj.apartment.bean.skuInfo;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 

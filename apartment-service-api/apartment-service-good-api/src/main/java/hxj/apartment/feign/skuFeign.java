@@ -1,6 +1,6 @@
 package hxj.apartment.feign;
 
-import bean.Result;
+import hxj.apartment.bean.Result;
 import hxj.apartment.bean.Sku;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

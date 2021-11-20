@@ -1,6 +1,7 @@
 package hxj.apartment.service;
 
-import bean.skuInfo;
+import hxj.apartment.bean.skuInfo;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Map;
 
@@ -30,5 +31,6 @@ public interface searchService {
 
     void delete(Long skuInfoID);
 
-    Map<String, Object> search(Map<String, String> searchMap);
+    Map<String, Object> search(Map<String, String> searchMap, Pageable pageable);
+
 }

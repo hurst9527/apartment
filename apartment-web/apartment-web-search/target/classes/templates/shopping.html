@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>公寓商城</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- site icon -->
+    <link rel="icon" href="images/fevicon.png" type="image/png"/>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <!-- site css -->
+    <link rel="stylesheet" href="/css/style.css"/>
+    <!-- responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css"/>
+    <!-- color css -->
+    <link rel="stylesheet" href="/css/colors.css"/>
+    <!-- select bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap-select.css"/>
+    <!-- scrollbar css -->
+    <link rel="stylesheet" href="/css/perfect-scrollbar.css"/>
+    <!-- custom css -->
+    <link rel="stylesheet" href="/css/custom.css"/>
+    <!-- calendar file css -->
+    <link rel="stylesheet" href="/js/semantic.min.css"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+          integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"-->
+<!--            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">-->
+<!--    </script>-->
+    <style>
+        #specChoseDiv {
+            margin-top: 10px;
+            border-width: 1px;
+            border-style: double;
+            border-color: grey;
+            font-size: small;
+            overflow: hidden;
+        }
+
+        #specChoseDiv .row .title {
+            margin-top: 3px;
+            float: right;
+        }
+
+        #specChoseDiv .Item {
+            border-top: 1px solid grey;
+        }
+
+        #specChoseDiv .row .specItem {
+            margin-left: 0px;
+            margin-right: 7px;
+        }
+
+
+        #specChoseDiv .row .titleDiv {
+            background-color: rgb(180, 220, 221);
+        }
+
+        #specChoseDiv .row .logo-list li {
+            margin-top: 3px;
+            width: 70px;
+            height: 33px;
+            line-height: 33px;
+            text-align: center;
+            border: 1px solid grey;
+        }
+
+        #specChoseDiv .row .logo-list li a {
+            color: rgb(97, 99, 100);
+            font-weight: 800;
+        }
+
+        .goodCount {
+            margin-left: 7px;
+            margin-top: 7px;
+        }
+
+        .goodCount .chosedItem {
+            font-size: small;
+        }
+
+        #pageDiv li a {
+            font-size: small;
+        }
+    </style>
+</head>
+
+<body class="inner_page contact_page">
+<div class="full_container">
+    <div class="inner_container">
+        <!-- right content -->
+        <div id="content">
+            <!-- topbar -->
+            <div class="topbar">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="full">
+                        <div class="logo_section">
+                            <a href="index.html"><img class="img-responsive" src="/images/logo/logo.png" alt="#"/></a>
+                        </div>
+                        <div class="right_topbar" style="height: 50px;">
+                            <div class="icon_info">
+                                <a href="#" class="btn btn-primary" role="button"
+                                   style="position: relative; top: 50%; transform: translateY(25%);">
+                                    <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;我的订单</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <!-- end topbar -->
+            <!-- 搜索框 -->
+
+            <div class="row">
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                </div>
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    <div class="icon_info">
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class="row">
+                                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="padding: 0;">
+                                    <input type="text" class="form-control" placeholder="商品搜索">
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="text-align: center;">
+                                    <button type="submit" class="btn btn-default"
+                                            style="font-size: small;">搜&nbsp;&nbsp;索
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品分类栏 -->
+            <div class="row goodCount">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <span>全部结果:</span>
+                    <span>9999件</span>
+                    <span>&nbsp;/&nbsp;</span>
+                    <span>
+                     <span class="chosedItem">手机</span><a href="">x</a><i>、</i>
+                  </span>
+                </div>
+            </div>
+            <div id="specChoseDiv">
+                <div class="row Item" style="border-top: 0px solid grey;">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 titleDiv">
+                        <span class="title">品牌</span>
+                    </div>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <div class="row specItem">
+                        <span>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                           <a href="">小米</a><i>&nbsp;</i>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row Item">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 titleDiv">
+                        <span class="title">网络</span>
+                    </div>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <div class="row">
+                            <ul class="logo-list " style="margin-left: 10px;">
+                                <li>
+                                    <a href="/search/list?keywords=手机&amp;category=手机&amp;brand=%E5%8D%8E%E4%B8%BA">华为</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 结束分类栏 -->
+            <!-- 商品栏 -->
+            <div class="goods row" style="margin-top: 10px;">
+                <!-- 单个商品 -->
+                <div class="col-sm-4 col-md-4 col-xs-6">
+                    <div class="thumbnail">
+                        <img src="/images/loader/loading.gif" alt="...">
+                        <div class="caption">
+                            <h5>Thumbnail label</h5>
+                            <p>...</p>
+                            <p>
+                            <div class="row">
+                                <div class="col-sm-4 col-md-4 col-xs-4">
+                                </div>
+                                <div class="col-sm-4 col-md-4 col-xs-4">
+                                    <a href="#" class="btn btn-primary" role="button">
+                                        <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;购买</a>
+                                </div>
+                            </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 单个商品 -->
+            </div>
+            <!-- 结束商品栏 -->
+            <!-- 分页栏 -->
+            <div style="text-align: center; " id="pageDiv">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-lg">
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- 结束分页栏 -->
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

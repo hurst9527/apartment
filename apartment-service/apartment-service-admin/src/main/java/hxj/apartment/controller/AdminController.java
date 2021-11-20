@@ -1,11 +1,7 @@
 package hxj.apartment.controller;
 
-import bean.Result;
-import bean.StatusCode;
 import com.github.pagehelper.PageInfo;
-import hxj.apartment.bean.Admin;
-import hxj.apartment.bean.AdminInfo;
-import hxj.apartment.bean.User;
+import hxj.apartment.bean.*;
 import hxj.apartment.feign.UserFeign;
 import hxj.apartment.service.AdminService;
 import io.swagger.annotations.*;

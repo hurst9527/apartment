@@ -2,7 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <packaging>pom</packaging>
     <description>web渲染工程</description>
+    <modules>
+    </modules>
     <parent>
         <artifactId>apartment</artifactId>
         <groupId>org.example</groupId>
@@ -17,11 +20,6 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>apartment-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!-- Thymeleaf-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -30,11 +28,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--amqp-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
     </dependencies>
 </project>

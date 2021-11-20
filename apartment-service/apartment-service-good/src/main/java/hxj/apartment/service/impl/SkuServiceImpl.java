@@ -1,8 +1,8 @@
 package hxj.apartment.service.impl;
 
-import bean.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Result;
 import hxj.apartment.bean.Sku;
 import hxj.apartment.dao.SkuMapper;
 import hxj.apartment.feign.FileFeign;
@@ -195,7 +195,7 @@ public class SkuServiceImpl implements SkuService {
      */
     @Override
     public void update(Sku sku) {
-        skuMapper.updateByPrimaryKey(sku);
+        skuMapper.updateByPrimaryKeySelective(sku);
     }
 
     /**

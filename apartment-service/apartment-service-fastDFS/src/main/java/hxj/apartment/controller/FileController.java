@@ -1,10 +1,9 @@
 package hxj.apartment.controller;
 
-import bean.Result;
-import bean.StatusCode;
 import hxj.apartment.bean.FastDFSFile;
+import hxj.apartment.bean.Result;
+import hxj.apartment.bean.StatusCode;
 import hxj.apartment.util.fastDFSUtil;
-import org.csource.fastdfs.StorageServer;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

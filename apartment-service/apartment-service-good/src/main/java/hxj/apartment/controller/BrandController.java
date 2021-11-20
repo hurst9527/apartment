@@ -1,9 +1,9 @@
 package hxj.apartment.controller;
 
-import bean.Result;
-import bean.StatusCode;
 import com.github.pagehelper.PageInfo;
 import hxj.apartment.bean.Brand;
+import hxj.apartment.bean.Result;
+import hxj.apartment.bean.StatusCode;
 import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.BrandService;
 import io.swagger.annotations.*;

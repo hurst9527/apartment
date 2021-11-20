@@ -1,8 +1,8 @@
 package hxj.apartment.controller;
 
-import bean.Result;
-import bean.StatusCode;
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Result;
+import hxj.apartment.bean.StatusCode;
 import hxj.apartment.bean.UserRelationship;
 import hxj.apartment.service.UserRelationshipService;
 import io.swagger.annotations.*;

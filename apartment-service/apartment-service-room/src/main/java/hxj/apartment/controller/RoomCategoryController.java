@@ -1,12 +1,14 @@
 package hxj.apartment.controller;
-import bean.Result;
-import bean.StatusCode;
-import hxj.apartment.bean.RoomCategory;
-import hxj.apartment.service.RoomCategoryService;
+
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Result;
+import hxj.apartment.bean.RoomCategory;
+import hxj.apartment.bean.StatusCode;
+import hxj.apartment.service.RoomCategoryService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /****

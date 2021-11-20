@@ -1,9 +1,9 @@
 package hxj.apartment.controller;
 
-import bean.Result;
-import bean.StatusCode;
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Result;
 import hxj.apartment.bean.Sku;
+import hxj.apartment.bean.StatusCode;
 import hxj.apartment.feign.FileFeign;
 import hxj.apartment.service.SkuService;
 import io.swagger.annotations.*;
