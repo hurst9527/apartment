@@ -6,10 +6,8 @@ import hxj.apartment.feign.UserFeign;
 import hxj.apartment.service.AdminService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -28,15 +26,6 @@ public class AdminController {
 
     @Autowired
     private UserFeign userFeign;
-
-    @Value("${frontServer.ip}")
-    private String frontIPAddr;
-
-    @Value("${frontServer.port}")
-    private String frontPort;
-
-    @Value("${frontServer.road}")
-    private String frontRoad;
 
     /**
      * 根据用户状态查找用户
@@ -143,12 +132,9 @@ public class AdminController {
      * @return
      */
     @PostMapping("/regist")
-    public ModelAndView regist(Admin admin, @RequestParam(value = "file", required = false) MultipartFile headImg) {
+    public Result regist(Admin admin, @RequestParam(value = "file", required = false) MultipartFile headImg) {
         adminService.regist(admin, headImg);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("transfer");
-        modelAndView.addObject("frontInfo", "http://" + frontIPAddr + ":" + frontPort + frontRoad);
-        return modelAndView;
+        return new Result(true, StatusCode.OK, "注册成功");
     }
 
     /**
