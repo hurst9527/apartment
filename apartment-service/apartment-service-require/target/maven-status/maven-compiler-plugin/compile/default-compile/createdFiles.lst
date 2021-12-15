@@ -1,0 +1,6 @@
+hxj\apartment\conf\Swagger2Conf.class
+hxj\apartment\service\RepairService.class
+hxj\apartment\RequireApplication.class
+hxj\apartment\controller\RepairController.class
+hxj\apartment\service\impl\RepairServiceImpl.class
+hxj\apartment\dao\RepairMapper.class

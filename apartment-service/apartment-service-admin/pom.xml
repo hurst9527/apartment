@@ -14,6 +14,8 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <!--    定义maven打包jar包之后的存放路径    -->
+        <project.jar.output.directory>D:\ApartmentTarget</project.jar.output.directory>
     </properties>
     <dependencies>
         <dependency>

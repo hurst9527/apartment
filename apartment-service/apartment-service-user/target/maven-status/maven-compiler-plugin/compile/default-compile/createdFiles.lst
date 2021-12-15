@@ -1,0 +1,10 @@
+hxj\apartment\service\UserRelationshipService.class
+hxj\apartment\service\impl\DiseaseServiceImpl.class
+hxj\apartment\dao\UserRelationshipMapper.class
+hxj\apartment\service\impl\AreaServiceImpl.class
+hxj\apartment\service\impl\UserRelationshipServiceImpl.class
+hxj\apartment\dao\AreaMapper.class
+hxj\apartment\UserApplication.class
+hxj\apartment\service\impl\UserServiceImpl.class
+hxj\apartment\dao\DiseaseMapper.class
+hxj\apartment\dao\UserMapper.class

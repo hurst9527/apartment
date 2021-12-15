@@ -65,10 +65,13 @@ public class SpuSearchController {
      *      category
      *      brand
      *      keyword
-     *      price
+     *      price       0-500   500-1000 ... 3000元以上
      *      page
      *      sortField
      *      sortRule
+     *      FCategory   一级分类
+     *      SCategory   二级分类
+     *      TCategory   三级分类
      *
      * @return resultMap:
      *      categoryList

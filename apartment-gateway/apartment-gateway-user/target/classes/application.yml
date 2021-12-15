@@ -1,0 +1,53 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://121.196.146.187:7001/eureka
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: user-gateway
+  cloud:
+    #    gateway配置
+    gateway:
+      routes:
+        - id: apartment_admin_route
+          uri: lb://admin
+          predicates:
+            - Path=/admin/**
+
+        - id: apartment_good_route
+          uri: lb://godod
+          predicates:
+            - Path=/good/**
+
+        - id: apartment_order_route
+          uri: lb://order
+          predicates:
+            - Path=/order/**
+
+        - id: apartment_require_route
+          uri: lb://require
+          predicates:
+            - Path=/require/**
+
+        - id: apartment_room_route
+          uri: lb://room
+          predicates:
+            - Path=/good/**
+
+        - id: apartment_user_route   # 唯一标识符,可以任意选取
+          #  指定路由网址
+          uri: lb://user
+          predicates:
+            # 所有以/brand开头的请求都将路由到http://localhost:18087
+            # 例如  localhost:8001/user  ——>  localhost:18081/user
+            - Path=/user/**
+
+server:
+  port: 8080
+feign:
+  hystrix:
+    enabled: true

@@ -54,15 +54,15 @@ public class SpuSearchServiceImpl implements spuSearchService {
         long totalElements = spuInfos.getTotalElements();//商品总数
 
         //用户点击了分类，即传入了分类数据，就不需要再对分类进行分组查询
-        if (StringUtils.isEmpty(searchMap.get("FirCategory"))) {
+        if (StringUtils.isEmpty(searchMap.get("FCategory"))) {
             ArrayList<String> categoryList = getCategoryList(nativeSearchQueryBuilder, "category1Name", "FirCategoryList");
             resultmap.put("FirCategoryList", categoryList);
         }
-        if (StringUtils.isEmpty(searchMap.get("SeCategory"))) {
+        if (StringUtils.isEmpty(searchMap.get("SCategory"))) {
             ArrayList<String> categoryList = getCategoryList(nativeSearchQueryBuilder, "category2Name", "SeCategoryList");
             resultmap.put("SeCategoryList", categoryList);
         }
-        if (StringUtils.isEmpty(searchMap.get("ThCategory"))) {
+        if (StringUtils.isEmpty(searchMap.get("TCategory"))) {
             ArrayList<String> categoryList = getCategoryList(nativeSearchQueryBuilder, "category3Name", "ThCategoryList");
             resultmap.put("ThCategoryList", categoryList);
         }

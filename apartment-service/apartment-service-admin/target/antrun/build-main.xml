@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <copy todir="D:\ApartmentTarget">
+    <fileset dir="E:\OneDrive\java_develop\apartment\apartment-service\apartment-service-admin\target">
+      <include name="*.jar"/>
+    </fileset>
+  </copy>
+</target>
+</project>

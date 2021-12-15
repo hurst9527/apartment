@@ -1,0 +1,11 @@
+hxj\apartment\conf\Swagger2Conf.class
+hxj\apartment\service\impl\SkuSearchServiceImpl.class
+hxj\apartment\controller\SpuSearchController.class
+hxj\apartment\conf\WebGlobalConfig.class
+hxj\apartment\service\impl\SpuSearchServiceImpl.class
+hxj\apartment\dao\SpuSearchMapper.class
+hxj\apartment\controller\SkuSearchController.class
+hxj\apartment\SearchApplication.class
+hxj\apartment\dao\SkuSearchMapper.class
+hxj\apartment\service\spuSearchService.class
+hxj\apartment\service\skuSearchService.class

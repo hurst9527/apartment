@@ -1,7 +1,8 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:7001/eureka
+      defaultZone: http://121.196.146.187:7001/eureka
+    #      defaultZone: http://127.0.0.1:7001/eureka
     register-with-eureka: true
     fetch-registry: true
   instance:
@@ -11,7 +12,7 @@ spring:
     name: search
   data:
     elasticsearch:
-      cluster-name: docker-cluster
+      cluster-name: apartment-es
       cluster-nodes: 42.194.148.173:9300
 
   main:
@@ -21,7 +22,7 @@ feign:
   hystrix:
     enabled: false
   httpclient:
-    connection-timeout: 150000
+    connection-timeout: 360000
 hystrix:
   command:
     default:
@@ -32,7 +33,7 @@ hystrix:
           thread:
             timeoutInMilliseconds: 900000
 ribbon:
-  ReadTimeout: 5000
-  ConnectTimeout: 5000
+  ReadTimeout: 360000
+  ConnectTimeout: 360000
 server:
   port: 18088

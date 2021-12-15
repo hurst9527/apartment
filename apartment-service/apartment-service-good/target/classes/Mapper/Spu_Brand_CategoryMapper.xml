@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hxj.apartment.dao.Spu_Brand_CategoryMapper">
+    <resultMap id="Spu_Brand_CategoryResultMap" type="hxj.apartment.bean.Spu_Brand_Category">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="category1_id" property="category1Id" jdbcType="INTEGER"/>
+        <result column="category2_id" property="category2Id" jdbcType="INTEGER"/>
+        <result column="category3_id" property="category3Id" jdbcType="INTEGER"/>
+        <result column="sale_service" property="saleService" jdbcType="VARCHAR"/>
+        <result column="sale_num" property="saleNum" jdbcType="INTEGER"/>
+        <result column="spec_items" property="specItems" jdbcType="VARCHAR"/>
+        <result column="is_marketable" property="isMarketable" jdbcType="CHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="CHAR"/>
+        <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--查询-->
+    <select id="getAllSpu_Brand_Category" resultMap="Spu_Brand_CategoryResultMap">
+        SELECT s.id,
+               s.sn,
+               s.name,
+               s.caption,
+               s.brand_id,
+               s.category1_id,
+               s.category2_id,
+               s.category3_id,
+               s.image,
+               s.images,
+               s.sale_service,
+               s.introduction,
+               s.spec_items,
+               s.sale_num,
+               s.comment_num,
+               s.is_marketable,
+               s.is_delete,
+               s.`status`,
+               b.name  brandName,
+               c1.name category1Name,
+               c2.name category2Name,
+               c3.name category3Name
+        FROM `spu` as s
+
+                 LEFT JOIN brand as b
+                           ON s.brand_id = b.id
+
+                 LEFT JOIN category as c1
+                           on s.category1_id = c1.id
+
+                 LEFT JOIN category as c2
+                           on s.category2_id = c2.id
+
+                 LEFT JOIN category as c3
+                           on s.category3_id = c3.id
+        ;
+
+    </select>
+    <select id="getAllSpu_Brand_CategoryByspuID" parameterType="string" resultMap="Spu_Brand_CategoryResultMap">
+        SELECT s.id,
+               s.sn,
+               s.name,
+               s.caption,
+               s.brand_id,
+               s.category1_id,
+               s.category2_id,
+               s.category3_id,
+               s.image,
+               s.images,
+               s.sale_service,
+               s.introduction,
+               s.spec_items,
+               s.sale_num,
+               s.comment_num,
+               s.is_marketable,
+               s.is_delete,
+               s.`status`,
+               b.name  brandName,
+               c1.name category1Name,
+               c2.name category2Name,
+               c3.name category3Name
+        FROM `spu` as s
+
+                 LEFT JOIN brand as b
+                           ON s.brand_id = b.id
+
+                 LEFT JOIN category as c1
+                           on s.category1_id = c1.id
+
+                 LEFT JOIN category as c2
+                           on s.category2_id = c2.id
+
+                 LEFT JOIN category as c3
+                           on s.category3_id = c3.id
+        where s.id = #{spuID};
+
+    </select>
+</mapper>

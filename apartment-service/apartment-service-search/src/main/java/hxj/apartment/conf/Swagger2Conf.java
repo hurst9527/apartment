@@ -30,9 +30,9 @@ public class Swagger2Conf {
     //基本信息的配置，信息会在api文档上显示
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("zg测试的接口文档")
-                .description("xx相关接口的文档")
-                .termsOfServiceUrl("http://localhost:8080/hello")
+                .title("搜索引擎的接口文档")
+                .description("搜搜引擎的文档")
+                .termsOfServiceUrl("http://localhost:18088/hello")
                 .version("1.0")
                 .build();
     }

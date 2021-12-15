@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Document</title>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+          integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+    </script>
+</head>
+<body>
+<div class="jumbotron" style="text-align: center;margin-top: 12%;">
+    <div class="container">
+        <div id="timeCount" style="font-size: 25px;font-weight: 600;">在4s后自动跳转到登录页</div>
+        <div style="margin: 10px;font-size: 17px;">
+            <!--            <a th:href="${frontInfo}+'index.html'" id="indexA">跳转到首页</a>-->
+            <a id="loginA" th:href="${frontInfo}+'login.html'">去登陆</a>
+        </div>
+        <div class="progress" style="width: 60%;margin: auto;">
+            <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="45"
+                 class="progress-bar progress-bar-striped active" id="processBar" role="progressbar" style="width: 0">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    let time = 4;
+    let count = 1;
+    let showTime = 4;
+    const processBar = document.getElementById("processBar");
+    let processIndex = 0;
+
+    function Time() {
+        //获取元素当前数字
+        if (time <= 0) { //进行判断
+            location.href = $("#indexA").attr("loginA"); //跳转页面
+        } else {
+            time = time - 0.1;
+            processBar.style.width = processIndex + "%";
+            processIndex += 3;
+            count += 1;
+            if (count == 10) {
+                showTime -= 1;
+                count = 1;
+                $("#timeCount").text("在" + showTime + "s后自动跳转到登录页"); //最新数字进行赋值
+            }
+        }
+    }
+
+    setInterval(Time, 100); //每隔1秒执行一次Time方法
+</script>
+
+</html>

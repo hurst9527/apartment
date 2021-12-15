@@ -62,13 +62,13 @@ public class SkuSearchController {
 
     /***
      * searchMap :
-     *      category
-     *      brand
-     *      keyword
-     *      price
-     *      page
-     *      sortField
-     *      sortRule
+     *      category    分类
+     *      brand       品牌
+     *      keyword     关键词
+     *      price       价格0-500   500-1000 ... 3000元以上
+     *      page        分页(整数)
+     *      sortField   排序字段
+     *      sortRule    排序规则 （ASC,DESC）
      *
      * @return resultMap:
      *      categoryList

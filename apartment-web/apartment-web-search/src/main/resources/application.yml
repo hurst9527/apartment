@@ -1,9 +1,9 @@
 server:
-  port: 9001
+  port: 18090
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:7001/eureka
+      defaultZone: http://121.196.146.187:7001/eureka
   instance:
     prefer-ip-address: true
 
