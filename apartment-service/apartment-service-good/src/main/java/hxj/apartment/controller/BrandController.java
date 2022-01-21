@@ -82,7 +82,7 @@ public class BrandController {
     public Result<List<Brand>> findList(@RequestBody(required = false) @ApiParam(name = "Brand对象",value = "传入JSON数据",required = false) Brand brand){
         //调用BrandService实现条件查询Brand
         List<Brand> list = brandService.findList(brand);
-        return new Result<List<Brand>>(true,StatusCode.OK,"查询成功",list);
+        return new Result<List<Brand>>(true, StatusCode.OK, "查询成功", list);
     }
 
     /***

@@ -30,7 +30,7 @@ function setCookie(c_name, value, expiredays) {
 }
 
 
-var nowUrl = window.location.href.split("/")[window.location.href.split("/").length-1]
+var nowUrl = window.location.href.split("/")[window.location.href.split("/").length - 1]
 var userName = getCookie("userName");
 var userHeadImg = getCookie("userHeadImg");
 if (userHeadImg == null) {
@@ -43,6 +43,6 @@ if (userName != null) {
 // alert(nowUrl)
 if ((userName == null)) {
     if (nowUrl != "login.html") {
-        window.location.href="login.html"
+        window.location.href = "login.html"
     }
 }

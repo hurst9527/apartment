@@ -55,7 +55,7 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "紧急联系人（电话号码）用于登录", required = false)
     @Column(name = "emergencyContactPhoneNo")
-    private Integer emergencyContactPhoneNo;//紧急联系人（电话号码）用于登录
+    private Long emergencyContactPhoneNo;//紧急联系人（电话号码）用于登录
 
     @ApiModelProperty(value = "紧急联系人（与本人关系）", required = false)
     @Column(name = "emergencyContactRelationship")
@@ -177,12 +177,12 @@ public class User implements Serializable {
     }
 
     //get方法
-    public Integer getEmergencyContactPhoneNo() {
+    public Long getEmergencyContactPhoneNo() {
         return emergencyContactPhoneNo;
     }
 
     //set方法
-    public void setEmergencyContactPhoneNo(Integer emergencyContactPhoneNo) {
+    public void setEmergencyContactPhoneNo(Long emergencyContactPhoneNo) {
         this.emergencyContactPhoneNo = emergencyContactPhoneNo;
     }
 

@@ -18,6 +18,7 @@
         <module>apartment-service-good</module>
         <module>apartment-service-search</module>
         <module>apartment-service-canal</module>
+        <module>apartment-service-publish</module>
     </modules>
 
     <properties>

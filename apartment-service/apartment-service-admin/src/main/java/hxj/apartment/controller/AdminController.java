@@ -126,7 +126,7 @@ public class AdminController {
     }
 
     /**
-     * 管理员登录功能
+     * 管理员注册功能
      *
      * @param admin
      * @return
@@ -201,7 +201,7 @@ public class AdminController {
     }
 
     /***
-     * 根据ID删除品牌数据
+     * 根据ID删除员工数据
      * @param id
      * @return
      */

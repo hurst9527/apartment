@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 
 /****
@@ -159,9 +160,10 @@ public class RequireController {
             Result result = fileFeign.upload(file);
             require.setImage(String.valueOf(result.getResult()));
         }
+        require.setSubmitTime(new Date());
         //调用RequireService实现添加Require
         requireService.add(require);
-        return new Result(true, StatusCode.OK, "添加成功");
+        return new Result(true, StatusCode.OK, "需求申报成功");
     }
 
     /***

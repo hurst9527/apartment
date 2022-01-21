@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- site icon -->
-    <link th:href="@{images/fevicon.png}" rel="icon" type="image/png}"/>
+    <link rel="icon" th:href="@{images/fevicon.png}" type="image/png}"/>
     <!-- bootstrap css -->
     <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
     <!-- site css -->
@@ -274,7 +274,7 @@
          </span>
         <span class="closeGoodDetail">X</span>
         <div class="goodImg">
-            <span><img alt="" th:src="@{images/loader/loading.gif}" id="skuImg"></span>
+            <span><img alt="" id="skuImg" th:src="@{images/loader/loading.gif}"></span>
             <span class="priceUnit">￥</span>
             <span class="price" id="price">--</span>
         </div>
@@ -309,12 +309,13 @@
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <div class="full">
                         <div class="logo_section">
-                            <a href="index.html"><img class="img-responsive" th:src="@{images/logo/logo.png}" alt="#"/></a>
+                            <a href="index.html"><img alt="#" class="img-responsive" th:src="@{images/logo/logo.png}"/></a>
                         </div>
                         <div class="right_topbar" style="height: 50px;">
                             <div class="icon_info">
                                 <a class="btn btn-primary" role="button"
-                                   style="position: relative; top: 50%; transform: translateY(25%);margin-right: 25px;color: white" id="myOrders">
+                                   id="myOrders"
+                                   style="position: relative; top: 50%; transform: translateY(25%);margin-right: 25px;color: white">
                                     <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;我的订单</a>
                             </div>
                         </div>
@@ -442,8 +443,8 @@
                             <p>
                             <div>
                                 <span style="display: block;text-align: center">
-                                    <a class="btn btn-primary" th:onclick="|getSpuInfo(${spu.id})|"
-                                       role="button">
+                                    <a class="btn btn-primary" role="button"
+                                       th:onclick="|getSpuInfo(${spu.id})|">
                                     <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;购买</a>
                                 </span>
                             </div>
@@ -568,7 +569,7 @@
     });
     $(".closeGoodDetail").click(function () {
         $("#price").html("--")
-        $("#skuImg").attr("src","images/loader/loading.gif");
+        $("#skuImg").attr("src", "images/loader/loading.gif");
         $(".goodDetail").animate({
             bottom: "-600px"
         });
@@ -578,8 +579,8 @@
     var chosedSpuID = 0;
     var chosedSkuID = 0;
 
-    $("#myOrders").click(function (){
-        window.location.href="order.html"
+    $("#myOrders").click(function () {
+        window.location.href = "order.html"
     })
 
     function getSpuInfo(spuID) {
@@ -623,7 +624,7 @@
     }
 
     //参数绑定点击事件
-    function bandParamClick(){
+    function bandParamClick() {
         $(".goodDetailSpecItem span").click(function () {
             $(this).parent().addClass("choseItem");
             $(this).parent().prevAll().removeClass("choseItem");
@@ -631,11 +632,12 @@
             $(this).parent().nextAll().removeClass("choseItem");
             $(this).parent().parent().nextAll().removeClass("choseItem");
             $("#price").html("--");
-            if ($(".choseItem").length==specCount){
+            if ($(".choseItem").length == specCount) {
                 getSkuPrice();
             }
         });
     }
+
     bandParamClick();
 
     //点击现在购买
@@ -660,20 +662,20 @@
             success: function (data) { //成功
                 chosedSkuID = data.result.skuList[0].id;
                 $("#price").html(data.result.skuList[0].price);
-                $("#skuImg").attr("src",data.result.skuList[0].image);
+                $("#skuImg").attr("src", data.result.skuList[0].image);
             }
         });
     }
 
     var userID = getCookie("userID");
-    $("#buyNow").click(function (){
+    $("#buyNow").click(function () {
         alert(chosedSkuID);
         $.ajax({
             type: "post", //提交的方法
             url: "/frontApi/order", //提交的地址
             data: JSON.stringify({
-                "userID":userID,
-                "skuID":chosedSkuID
+                "userID": userID,
+                "skuID": chosedSkuID
             }), // 序列化表单值
             async: true,
             contentType: "application/json;charset=UTF-8",

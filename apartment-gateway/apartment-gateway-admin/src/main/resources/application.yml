@@ -58,6 +58,11 @@ spring:
           predicates:
             - Path=/goodManage/**
 
+        - id: apartment_message_route
+          uri: http://localhost:18091
+          predicates:
+            - Path=/message/**
+
 server:
   port: 8081
 feign:

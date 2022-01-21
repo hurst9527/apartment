@@ -70,7 +70,7 @@ public class UserController {
                         @RequestParam(value = "isMember", required = false) boolean isMember) {
 //        登录身份判断
         if (identity.equals("family")) {
-            user.setEmergencyContactPhoneNo(Math.toIntExact(user.getPhoneNo()));
+            user.setEmergencyContactPhoneNo(user.getPhoneNo());
             user.setPhoneNo(null);
         }
         User searchUser = userService.login(user);
@@ -194,16 +194,14 @@ public class UserController {
     @ApiOperation(value = "User根据ID修改", notes = "根据ID修改User方法详情", tags = {"UserController"})
     @ApiImplicitParam(paramType = "path", name = "id", value = "主键ID", required = true, dataType = "Integer")
     @PostMapping(value = "/{id}")
-    public Result update(User user, @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+    public Result update(User user, @DateTimeFormat(pattern = "yyyy-MM-dd") Date birthDate,
                          @PathVariable("id") Integer id, @RequestParam(name = "file", value = "file", required = false) MultipartFile file) {
         //设置主键值
         user.setId(id);
-        user.setBirthday(date);
+        user.setBirthday(birthDate);
 //        将上传的图像进行保存
-        System.out.println(file);
         if (file != null) {
             Result uploadRes = fileFeign.upload(file);
-            System.out.println(uploadRes.getResult());
             user.setImage(String.valueOf(uploadRes.getResult()));
         }
         //调用UserService实现修改User
