@@ -1,7 +1,8 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://121.196.146.187:7001/eureka
+#      defaultZone: http://121.196.146.187:7001/eureka
+      defaultZone: http://127.0.0.1:7001/eureka
     register-with-eureka: true
     fetch-registry: true
   instance:
@@ -14,38 +15,54 @@ spring:
     gateway:
       routes:
         - id: apartment_admin_route
-          uri: lb://admin
+          #          uri: lb://admin
+          uri: http://localhost:18081
           predicates:
-            - Path=/admin/**
+            - Path=/adminInfo/**
 
         - id: apartment_good_route
-          uri: lb://godod
+          #          uri: lb://godod
+          uri: http://localhost:18083
           predicates:
             - Path=/good/**
 
         - id: apartment_order_route
-          uri: lb://order
+          #          uri: lb://order
+          uri: http://localhost:18084
           predicates:
-            - Path=/order/**
+            - Path=/order/**,/orderInfo/**
 
         - id: apartment_require_route
-          uri: lb://require
+          #          uri: lb://require
+          uri: http://localhost:18085
           predicates:
             - Path=/require/**
 
         - id: apartment_room_route
-          uri: lb://room
+          #          uri: lb://room
+          uri: http://localhost:18086
           predicates:
-            - Path=/good/**
+            - Path=/room/**
 
         - id: apartment_user_route   # 唯一标识符,可以任意选取
           #  指定路由网址
-          uri: lb://user
+          #          uri: lb://user
+          uri: http://localhost:18087
           predicates:
             # 所有以/brand开头的请求都将路由到http://localhost:18087
             # 例如  localhost:8001/user  ——>  localhost:18081/user
             - Path=/user/**
 
+        - id: apartment_search_route
+          #          uri: lb://room
+          uri: http://localhost:18088
+          predicates:
+            - Path=/skuSearch/**
+
+        - id: apartment_webSearch_route
+          uri: http://localhost:18090
+          predicates:
+            - Path=/shopping/**
 server:
   port: 8080
 feign:

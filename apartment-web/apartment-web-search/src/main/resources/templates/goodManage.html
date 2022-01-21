@@ -14,25 +14,25 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- site icon -->
-    <link rel="icon" href="/images/fevicon.png" type="image/png"/>
+    <link rel="icon" th:href="@{images/fevicon.png}" type="image/png"/>
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
     <!-- site css -->
-    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" th:href="@{css/style.css}"/>
     <!-- responsive css -->
-    <link rel="stylesheet" href="/css/responsive.css"/>
+    <link rel="stylesheet" th:href="@{css/responsive.css}"/>
     <!-- color css -->
-    <link rel="stylesheet" href="/css/colors.css"/>
+    <link rel="stylesheet" th:href="@{css/colors.css}"/>
     <!-- select bootstrap -->
-    <link rel="stylesheet" href="/css/bootstrap-select.css"/>
+    <link rel="stylesheet" th:href="@{css/bootstrap-select.css}"/>
     <!-- scrollbar css -->
-    <link rel="stylesheet" href="/css/perfect-scrollbar.css"/>
+    <link rel="stylesheet" th:href="@{css/perfect-scrollbar.css}"/>
     <!-- custom css -->
-    <link rel="stylesheet" href="/css/custom.css"/>
+    <link rel="stylesheet" th:href="@{css/custom.css}"/>
     <!-- calendar file css -->
-    <link rel="stylesheet" href="/js/semantic.min.css"/>
+    <link rel="stylesheet" th:href="@{css/semantic.min.css}"/>
     <!-- fancy box js -->
-    <link rel="stylesheet" href="/css/jquery.fancybox.css"/>
+    <link rel="stylesheet" th:href="@{css/jquery.fancybox.css}"/>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
           integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
@@ -128,7 +128,7 @@
                 <div class="sidebar_user_info">
                     <div class="icon_setting"></div>
                     <div class="user_profle_side">
-                        <div class="user_img"><img class="img-responsive" src="/images/layout_img/user_img.jpg"
+                        <div class="user_img"><img class="img-responsive" th:src="@{images/layout_img/user_img.jpg}"
                                                    alt="#"/>
                         </div>
                         <div class="user_info">
@@ -146,7 +146,6 @@
                         <a href="#element" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                                 class="fa fa-shopping-cart"></i>
                             <span>公寓商城</span></a>
-                        <span>公寓商城</span></a>
                         <ul class="collapse list-unstyled" id="element">
                             <li><a href="addGood.html">> <span>添加商品</span></a>
                             </li>
@@ -155,7 +154,7 @@
                     </li>
                     <li><a href="order.html"><i class="fa fa-check-square"></i> <span>订单审核</span></a></li>
                     <li><a href="userManage.html"><i class="fa fa-users"></i> <span>住户管理</span></a></li>
-                    <li><a href="power.html"><i class="fa fa-flash"></i> <span>水电登记</span></a></li>
+                    <!--                    <li><a href="power.html"><i class="fa fa-flash"></i> <span>水电登记</span></a></li>-->
                     <li><a href="adminManage.html"><i class="fa fa-key"></i> <span>管理员管理</span></a></li>
                 </ul>
             </div>
@@ -170,10 +169,10 @@
                         <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i
                                 class="fa fa-bars"></i></button>
                         <div class="logo_section">
-                            <a href="index.html"><img class="img-responsive" src="/images/logo/logo.png" alt="#"/></a>
+                            <a href="index.html"><img alt="#" class="img-responsive" th:src="@{images/logo/logo.png}"/></a>
                         </div>
                         <span style="color: white;float: right;margin-right: 30px;margin-top: 11px;">
-                        <form action="/search" style="float: right;" method="get">
+                        <form action="goodManage" method="get" style="float: right;">
                            <span>
                               关键词：
                               <input type="text" name="name" class="searchSpec">
@@ -207,10 +206,6 @@
                         <div class="col-md-12">
                             <div class="page_title">
                                 <h3>商品总数：<span th:text="${result.pageInfo.totalElements}"></span></h3>
-                                <div style="float:right;line-height: 20px;margin-bottom: 28px;">
-                                    <h4 style="display: inline;">上架数量：</h4>
-                                    <h4 style="display: inline;">下架数量：</h4>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -222,10 +217,10 @@
                                 <div class="full graph_head" style="display: inline-block;">
                                     <div class="heading1 margin_0 row">
                                         <div class="row" style="margin-left: 10px;">
-                                    <span>
-                                       <h4><a class="activeClass nowClass" id="allGood"
-                                              th:href="${#maps.containsKey(searchMap,'status')}? @{${#strings.replace(url,'&status='+searchMap.status,'')}} : @{${url}}">全部商品</a>&nbsp;&nbsp;</h4>
-                                    </span>
+                                            <!--                                    <span>-->
+                                            <!--                                       <h4><a class="activeClass nowClass" id="allGood"-->
+                                            <!--                                              th:href="${#maps.containsKey(searchMap,'status')}? @{${#strings.replace(url,'&status='+searchMap.status,'')}} : @{${url}}">全部商品</a>&nbsp;&nbsp;</h4>-->
+                                            <!--                                    </span>-->
                                             <span>
                                        <h4><a class="disActiveClass nowClass" id="onGood"
                                               th:href="${#maps.containsKey(searchMap,'status')}? @{${#strings.replace(url,'status='+searchMap.status,'status=1')}} : @{${url}(status=1)}">上架中</a>&nbsp;&nbsp;</h4>
@@ -247,7 +242,7 @@
                                                style="text-align: center; table-layout:fixed ;">
                                             <thead>
                                             <tr>
-                                                <th style="width: 95px;">编号</th>
+                                                <th style="width: 105px;">编号</th>
                                                 <th style="width: 3px;"></th>
                                                 <th style="width: 230px;">sku名称</th>
                                                 <th style="width: 90px;">商品图片</th>
@@ -423,24 +418,24 @@
     <!-- end model popup -->
 </div>
 <!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
-<script src="/js/popper.min.js"></script>
-<script src="/js/bootstrap.min.j"></script>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
 <!-- wow animation -->
-<script src="/js/animate.js"></script>
+<script th:src="@{js/animate.js}"></script>
 <!-- select country -->
-<script src="/js/bootstrap-select.js"></script>
+<script th:src="@{js/bootstrap-select.js}"></script>
 <!-- owl carousel -->
-<script src="/js/owl.carousel.js"></script>
+<script th:src="@{js/owl.carousel.js}"></script>
 <!-- chart js -->
-<script src="/js/Chart.min.js"></script>
-<script src="/js/Chart.bundle.min.js"></script>
-<script src="/js/utils.js"></script>
-<script src="/js/analyser.js"></script>
+<script th:src="@{js/Chart.min.js}"></script>
+<script th:src="@{js/Chart.bundle.min.js}"></script>
+<script th:src="@{js/utils.js}"></script>
+<script th:src="@{js/analyser.js}"></script>
 <!-- nice scrollbar -->
-<script src="/js/perfect-scrollbar.min.js"></script>
+<script th:src="@{js/perfect-scrollbar.min.js}"></script>
 <!-- fancy box js -->
-<script src="/js/jquery-3.3.1.min.js"></script>
+<script th:src="@{js/jquery-3.3.1.min.js}"></script>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script>
 
@@ -457,14 +452,14 @@
     }
 
     var status = getQueryVariable("status");
-    if (status == 1) {
+    if ((status == 1) || (status == "false")) {
         $(".nowClass").removeClass("activeClass");
         $(".nowClass").removeClass("disActiveClass");
         $("#onGood").prevAll().addClass("disActiveClass");
         $("#onGood").nextAll().addClass("disActiveClass");
         $("#onGood").addClass("activeClass");
     }
-    if (status == 0) {
+    if ((status == 0)) {
         $(".nowClass").removeClass("activeClass");
         $(".nowClass").removeClass("disActiveClass");
         $("#downGood").prevAll().addClass("disActiveClass");
@@ -479,7 +474,7 @@
         $("#delGood").addClass("activeClass");
     }
     function reChose(){
-        window.location.href="/search"
+        window.location.href = "frontSearch"
     }
 
     function changeGoodStatus(id) {
@@ -487,11 +482,9 @@
         if($(this).is(':checked')){
             var status = "1"
         }else {var status="0";}
-        // var myJson = {};
-        // myJson[searchKey] = searchValue;
         $.ajax({
             type: "put", //提交的方法
-            url: "http://127.0.0.1:18083/sku/" + id, //提交的地址
+            url: "http://127.0.0.1:18083/skuSearch/" + id, //提交的地址
             async: true,
             data: JSON.stringify({"status": status}),
             contentType: "application/json",
@@ -505,11 +498,11 @@
     }
 
 </script>
-<script src="/js/jquery.fancybox.min.js"></script>
+<script th:src="@{js/jquery.fancybox.min.js}"></script>
 <!-- custom js -->
-<script src="/js/custom.js"></script>
-<script src="/js/semantic.min.js"></script>
-<script src="/js/myUtil.js"></script>
+<script th:src="@{js/custom.js}"></script>
+<script th:src="@{js/semantic.min.js}"></script>
+<script th:src="@{js/myUtil.js}"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 <script>
 

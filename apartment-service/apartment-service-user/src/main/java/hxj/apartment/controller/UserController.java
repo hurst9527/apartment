@@ -1,7 +1,6 @@
 package hxj.apartment.controller;
 
 import com.github.pagehelper.PageInfo;
-import hxj.apartment.bean.AdminInfo;
 import hxj.apartment.bean.Result;
 import hxj.apartment.bean.StatusCode;
 import hxj.apartment.bean.User;
@@ -35,16 +34,17 @@ public class UserController {
     @Autowired
     private hxj.apartment.feign.adminFeign adminFeign;
 
-    /**
-     * 获取所有状态为2（审核通过）的管理员联系方式
-     *
+
+    /***
+     * 获取所有系统中有注册日期，且注销日期为空，状态为1（审核通过）的所有住户。
      * @return
      */
-    @GetMapping("/contact")
-    public Result<List<AdminInfo>> queryAdmins() {
-        Result result = adminFeign.queryAdmin("2");
-        return result;
+    @GetMapping("/usersInSystem")
+    public Result<List<User>> getAllUsersInSystem() {
+        List<User> allUsersInSystem = userService.getAllUsersInSystem();
+        return new Result<>(true, StatusCode.OK, "查询成功", allUsersInSystem);
     }
+
 
     /**
      * 查找电话号码，判断是否可用

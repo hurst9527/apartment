@@ -15,6 +15,14 @@ import java.util.List;
  */
 @FeignClient("user")
 public interface UserFeign {
+
+    /***
+     * 获取所有系统中有注册日期，且注销日期为空，状态为1（审核通过）的所有住户。
+     * @return
+     */
+    @GetMapping("/user/usersInSystem")
+    Result<List<User>> getAllUsersInSystem();
+
     /***
      * User分页条件搜索实现
      * @param user
@@ -23,7 +31,7 @@ public interface UserFeign {
      * @return
      */
     @PostMapping(value = "/user/search/{page}/{size}")
-    Result<PageInfo> findPage(@RequestBody(required = false) @ApiParam(name = "User对象", value = "传入JSON数据", required = false) User user, @PathVariable int page, @PathVariable int size) ;
+    Result<PageInfo> findPage(@RequestBody(required = false) @ApiParam(name = "User对象", value = "传入JSON数据", required = false) User user, @PathVariable int page, @PathVariable int size);
 
     /***
      * User分页搜索实现

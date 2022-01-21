@@ -30,6 +30,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    public List<User> getAllUsersInSystem() {
+        return userMapper.getAllUsersInSystem();
+    }
+
+    @Override
     public User login(User user) {
         try {
             User searchUser = findList(user).get(0);

@@ -1,13 +1,15 @@
 package hxj.apartment.service.impl;
-import hxj.apartment.dao.OrderMapper;
-import hxj.apartment.bean.Order;
-import hxj.apartment.service.OrderService;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import hxj.apartment.bean.Order;
+import hxj.apartment.dao.OrderMapper;
+import hxj.apartment.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
+
 import java.util.List;
 /****
  * @Author:HXJ
@@ -73,33 +75,45 @@ public class OrderServiceImpl implements OrderService {
     public Example createExample(Order order){
         Example example=new Example(Order.class);
         Example.Criteria criteria = example.createCriteria();
-        if(order!=null){
+        if(order!=null) {
             // 
-            if(!StringUtils.isEmpty(order.getId())){
-                    criteria.andEqualTo("id",order.getId());
+            if (!StringUtils.isEmpty(order.getId())) {
+                criteria.andEqualTo("id", order.getId());
             }
-            // 商品id
-            if(!StringUtils.isEmpty(order.getGoodID())){
-                    criteria.andEqualTo("goodID",order.getGoodID());
+            // skuID
+            if (!StringUtils.isEmpty(order.getUserID())) {
+                criteria.andEqualTo("userID", order.getUserID());
+            }
+            // skuID
+            if (!StringUtils.isEmpty(order.getSkuID())) {
+                criteria.andEqualTo("skuID", order.getSkuID());
+            }
+            // spuID
+            if (!StringUtils.isEmpty(order.getSpuID())) {
+                criteria.andEqualTo("spuID", order.getSpuID());
             }
             // 商品数量
-            if(!StringUtils.isEmpty(order.getNumber())){
-                    criteria.andEqualTo("number",order.getNumber());
+            if (!StringUtils.isEmpty(order.getNumber())) {
+                criteria.andEqualTo("number", order.getNumber());
             }
             // 
-            if(!StringUtils.isEmpty(order.getPrice())){
-                    criteria.andEqualTo("price",order.getPrice());
+            if (!StringUtils.isEmpty(order.getPrice())) {
+                criteria.andEqualTo("price", order.getPrice());
             }
             // 0：不送   1：送上楼
-            if(!StringUtils.isEmpty(order.getIfUpstairs())){
-                    criteria.andEqualTo("ifUpstairs",order.getIfUpstairs());
+            if (!StringUtils.isEmpty(order.getIfUpstairs())) {
+                criteria.andEqualTo("ifUpstairs", order.getIfUpstairs());
             }
             // 下单时间
-            if(!StringUtils.isEmpty(order.getTime())){
-                    criteria.andEqualTo("time",order.getTime());
+            if (!StringUtils.isEmpty(order.getOrderTime())) {
+                criteria.andEqualTo("orderTime", order.getOrderTime());
             }
-            if(!StringUtils.isEmpty(order.getStatus())){
-                    criteria.andEqualTo("status",order.getStatus());
+            // 完成订单时间
+            if (!StringUtils.isEmpty(order.getFinishTime())) {
+                criteria.andEqualTo("finishTime", order.getFinishTime());
+            }
+            if (!StringUtils.isEmpty(order.getStatus())) {
+                criteria.andEqualTo("status", order.getStatus());
             }
         }
         return example;
@@ -120,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public void update(Order order){
-        orderMapper.updateByPrimaryKey(order);
+        orderMapper.updateByPrimaryKeySelective(order);
     }
 
     /**

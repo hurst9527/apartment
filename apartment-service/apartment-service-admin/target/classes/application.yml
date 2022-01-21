@@ -1,11 +1,13 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://121.196.146.187:7001/eureka
+#      defaultZone: http://121.196.146.187:7001/eureka
+      defaultZone: http://127.0.0.1:7001/eureka
     register-with-eureka: true
     fetch-registry: true
   instance:
     prefer-ip-address: true
+#    ip-address: 42.194.148.173
 spring:
   thymeleaf:
     #构建URL时预先查看名称的前缀，默认就是这个，写在这里是怕忘了怎么配置
@@ -41,8 +43,3 @@ hystrix:
 ribbon:
   ReadTimeout: 30000
   ConnectTimeout: 30000
-#前端信息
-frontServer:
-  ip: 127.0.0.1
-  port: 80
-  road: /后台/

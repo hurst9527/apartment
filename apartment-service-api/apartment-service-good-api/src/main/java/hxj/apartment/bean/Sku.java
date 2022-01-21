@@ -31,8 +31,8 @@ public class Sku implements Serializable {
 	private String name;//SKU名称
 
 	@ApiModelProperty(value = "价格（分）", required = false)
-	@Column(name = "price")
-	private Integer price;//价格（分）
+    @Column(name = "price")
+    private Float price;//价格（分）
 
 	@ApiModelProperty(value = "库存数量", required = false)
 	@Column(name = "num")
@@ -129,15 +129,15 @@ public class Sku implements Serializable {
 		this.name = name;
 	}
 
-	//get方法
-	public Integer getPrice() {
-		return price;
-	}
+    //get方法
+    public Float getPrice() {
+        return price;
+    }
 
-	//set方法
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
+    //set方法
+    public void setPrice(Float price) {
+        this.price = price;
+    }
 
 	//get方法
 	public Integer getNum() {

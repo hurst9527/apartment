@@ -9,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.Map;
  * @create 2021-11-22 18:32
  */
 @Controller
+@RequestMapping("/shopping")
 public class FrontSearchController {
     @Autowired
     private spuSearchFeign spuSearchFeign;
@@ -39,7 +41,7 @@ public class FrontSearchController {
      *      totalElements
      *      skuList
      */
-    @GetMapping("/list")
+    @GetMapping
     public String search(@RequestParam(required = false) Map<String, String> searchMap, Model model, @PageableDefault(size = 28, sort = "brandName", direction = Sort.Direction.ASC) Pageable pageable) {
         Result result = spuSearchFeign.search(searchMap, pageable);
         model.addAttribute("result", result.getResult());//搜索数据
@@ -56,7 +58,7 @@ public class FrontSearchController {
      * @return
      */
     public String getUrl(Map<String, String> searchMap) {
-        String defaultUrl = "/list";
+        String defaultUrl = "shopping";
         String spiltUrl = defaultUrl;
         if (searchMap.size() > 0) {
             spiltUrl += "?";

@@ -54,19 +54,22 @@ public class SpuSearchServiceImpl implements spuSearchService {
         long totalElements = spuInfos.getTotalElements();//商品总数
 
         //用户点击了分类，即传入了分类数据，就不需要再对分类进行分组查询
-        if (StringUtils.isEmpty(searchMap.get("FCategory"))) {
-            ArrayList<String> categoryList = getCategoryList(nativeSearchQueryBuilder, "category1Name", "FirCategoryList");
-            resultmap.put("FirCategoryList", categoryList);
-        }
-        if (StringUtils.isEmpty(searchMap.get("SCategory"))) {
-            ArrayList<String> categoryList = getCategoryList(nativeSearchQueryBuilder, "category2Name", "SeCategoryList");
-            resultmap.put("SeCategoryList", categoryList);
-        }
-        if (StringUtils.isEmpty(searchMap.get("TCategory"))) {
+        String firCategory = searchMap.get("FirCategory");
+        String seCategory = searchMap.get("SeCategory");
+        String thCategory = searchMap.get("ThCategory");
+        if (StringUtils.isEmpty(thCategory)) {
             ArrayList<String> categoryList = getCategoryList(nativeSearchQueryBuilder, "category3Name", "ThCategoryList");
             resultmap.put("ThCategoryList", categoryList);
         }
-        //用户点击了分类，即传入了品牌数据，就不需要再对品牌进行分组查询
+        if ((StringUtils.isEmpty(seCategory)) && (StringUtils.isEmpty(thCategory))) {
+            ArrayList<String> categoryList = getCategoryList(nativeSearchQueryBuilder, "category2Name", "SeCategoryList");
+            resultmap.put("SeCategoryList", categoryList);
+        }
+        if ((StringUtils.isEmpty(firCategory)) && (StringUtils.isEmpty(seCategory)) && (StringUtils.isEmpty(thCategory))) {
+            ArrayList<String> categoryList = getCategoryList(nativeSearchQueryBuilder, "category1Name", "FirCategoryList");
+            resultmap.put("FirCategoryList", categoryList);
+        }
+        //用户点击了品牌，即传入了品牌数据，就不需要再对品牌进行分组查询
         if (StringUtils.isEmpty(searchMap.get("brand"))) {
             ArrayList<String> brandList = getBrandList(nativeSearchQueryBuilder);
             resultmap.put("brandList", brandList);
@@ -181,29 +184,38 @@ public class SpuSearchServiceImpl implements spuSearchService {
             /**
              * 判断是否需要进行关键词搜索
              */
-            String keyword = searchMap.get("keyword");
+            String keyword = searchMap.get("name");
             if (keyword != null) {
                 //.field("keyword")指定搜索域,.queryStringQuery(keyword)搜索值 类似于sql中的select * from table where 搜索域=搜索值
                 //nativeSearchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(keyword).field("name"));//这个适用于但条件查询
                 boolQueryBuilder.must(QueryBuilders.queryStringQuery(keyword).field("name"));
             }
-
             /**
              * 分类搜索（category=红色）
              */
-            String FCategory = searchMap.get("FCategory");
-            if (!StringUtils.isEmpty(FCategory)) {
-                boolQueryBuilder.must(QueryBuilders.termQuery("category1Name", FCategory));//.termQuery第一个是域名称第二个是值
+            String FirCategory = searchMap.get("FirCategory");
+            String SeCategory = searchMap.get("SeCategory");
+            String ThCategory = searchMap.get("ThCategory");
+            if (!StringUtils.isEmpty(FirCategory)) {
+                boolQueryBuilder.must(QueryBuilders.termQuery("category1Name", FirCategory));//.termQuery第一个是域名称第二个是值
             }
-            String SCategory = searchMap.get("SCategory");
-            if (!StringUtils.isEmpty(SCategory)) {
-                boolQueryBuilder.must(QueryBuilders.termQuery("category2Name", SCategory));
+            if (!StringUtils.isEmpty(SeCategory)) {
+                boolQueryBuilder.must(QueryBuilders.termQuery("category2Name", SeCategory));
             }
-            String TCategory = searchMap.get("TCategory");
-            if (!StringUtils.isEmpty(TCategory)) {
-                boolQueryBuilder.must(QueryBuilders.termQuery("category3Name", TCategory));
+            if (!StringUtils.isEmpty(ThCategory)) {
+                boolQueryBuilder.must(QueryBuilders.termQuery("category3Name", ThCategory));
             }
-
+//            if (!StringUtils.isEmpty(ThCategory)){
+//                boolQueryBuilder.must(QueryBuilders.termQuery("category3Name", ThCategory));
+//            }else {
+//                if (!StringUtils.isEmpty(SeCategory)){
+//                    boolQueryBuilder.must(QueryBuilders.termQuery("category2Name", SeCategory));
+//                }else {
+//                    if (!StringUtils.isEmpty(FirCategory)){
+//                        boolQueryBuilder.must(QueryBuilders.termQuery("category1Name", FirCategory));
+//                    }
+//                }
+//            }
 
             /**
              * 规格参数搜索（spec_网络=4G&spec_颜色=红色）
@@ -224,7 +236,6 @@ public class SpuSearchServiceImpl implements spuSearchService {
                     boolQueryBuilder.must(QueryBuilders.termQuery("specMap." + searchKey.substring(5) + ".keyword", searchVal));
                 }
             }
-
             /**
              * 根据价格区间搜索
              */

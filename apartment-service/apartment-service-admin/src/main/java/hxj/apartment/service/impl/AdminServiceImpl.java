@@ -111,8 +111,8 @@ public class AdminServiceImpl implements AdminService {
                 criteria.andEqualTo("password", admin.getPassword());
             }
             // 管理员等级   关联admin_grade中的grade字段
-            if (!StringUtils.isEmpty(admin.getIdentity())) {
-                criteria.andEqualTo("identity", admin.getIdentity());
+            if (!StringUtils.isEmpty(admin.getGrade())) {
+                criteria.andEqualTo("identity", admin.getGrade());
             }
             // 职位
             if (!StringUtils.isEmpty(admin.getPosition())) {

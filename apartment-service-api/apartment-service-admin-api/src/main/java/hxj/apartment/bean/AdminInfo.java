@@ -2,8 +2,6 @@ package hxj.apartment.bean;
 
 import lombok.*;
 
-import java.io.Serializable;
-
 /**
  * @author HXJ
  * @create 2021-10-27 10:53
@@ -14,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class AdminInfo  implements Serializable {
+public class AdminInfo {
     private Long id;
     private String name;   //姓名
     private String identity;//身份

@@ -15,7 +15,7 @@ import java.util.List;
 @FeignClient("good")
 public interface spuBrandCategoryFeign {
 
-    @GetMapping("/Spu_Brand_Category/Spu_Brand_Category")
+    @GetMapping("/Spu_Brand_Category")
     Result<List<Spu_Brand_Category>> getAllSpu_Brand_Category();
 
     @GetMapping("/Spu_Brand_Category/{spuID}")

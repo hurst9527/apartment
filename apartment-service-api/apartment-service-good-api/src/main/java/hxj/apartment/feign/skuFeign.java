@@ -3,8 +3,7 @@ package hxj.apartment.feign;
 import hxj.apartment.bean.Result;
 import hxj.apartment.bean.Sku;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,4 +23,9 @@ public interface skuFeign {
     @GetMapping("/sku/{id}")
     Result<Sku> findById(@PathVariable(name = "id") String id);
 
+    @PostMapping(value = "/sku/search")
+    Result<List<Sku>> findList(@RequestBody(required = false) Sku sku);
+
+    @PutMapping(value = "/sku/{id}")
+    Result update(@RequestBody Sku sku, @PathVariable String id);
 }

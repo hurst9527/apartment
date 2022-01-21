@@ -24,7 +24,7 @@ public class FileController {
         try {
             FastDFSFile file = new FastDFSFile(multipartFile.getName(),multipartFile.getBytes(), StringUtils.getFilenameExtension(multipartFile.getOriginalFilename()));
             String[] infos = fastDFSUtil.upload(file);
-            return new Result(true, StatusCode.OK,"文件上传成功！！", fastDFSUtil.getTrackerUrl()+infos[0]+"/"+infos[1]);
+            return new Result(true, StatusCode.OK, "文件上传成功！！", "http://" + fastDFSUtil.getTrackerUrl() + infos[0] + "/" + infos[1]);
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, StatusCode.ERROR,"文件上传失败！！");

@@ -30,8 +30,8 @@ public class Swagger2Conf {
     //基本信息的配置，信息会在api文档上显示
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("zg测试的接口文档")
-                .description("xx相关接口的文档")
+                .title("fastDFS文件上传的接口文档")
+                .description("fastDFS文件上传相关接口的文档")
                 .termsOfServiceUrl("http://localhost:8080/hello")
                 .version("1.0")
                 .build();

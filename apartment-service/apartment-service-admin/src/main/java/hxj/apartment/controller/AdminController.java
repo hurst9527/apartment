@@ -134,7 +134,7 @@ public class AdminController {
     @PostMapping("/regist")
     public Result regist(Admin admin, @RequestParam(value = "file", required = false) MultipartFile headImg) {
         adminService.regist(admin, headImg);
-        return new Result(true, StatusCode.OK, "注册成功");
+        return new Result(true, StatusCode.OK, "注册成功,等待管理员审核");
     }
 
     /**

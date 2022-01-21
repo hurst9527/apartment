@@ -10,7 +10,8 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://121.196.146.187:7001/eureka
+#      defaultZone: http://121.196.146.187:7001/eureka
+      defaultZone: http://127.0.0.1:7001/eureka
   instance:
     prefer-ip-address: true
 feign:
@@ -31,3 +32,16 @@ hystrix:
 ribbon:
   ReadTimeout: 30000
   ConnectTimeout: 30000
+#actuator配置定义
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+info:
+  app-name: fastDfs Application
+  author: hxj
+  email: 1588919640@163.com

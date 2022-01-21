@@ -10,6 +10,11 @@ import java.util.List;
  * @Description:User业务层接口
  *****/
 public interface UserService {
+    /***
+     * 获取所有系统中有注册日期，且注销日期为空，状态为1（审核通过）的所有住户。
+     * @return
+     */
+    List<User> getAllUsersInSystem();
 
 
     User login(User user);

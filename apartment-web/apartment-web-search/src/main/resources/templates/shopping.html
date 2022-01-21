@@ -14,23 +14,23 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- site icon -->
-    <link href="/images/fevicon.png" rel="icon" type="image/png"/>
+    <link rel="icon" th:href="@{images/fevicon.png}" type="image/png}"/>
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
     <!-- site css -->
-    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" th:href="@{css/style.css}"/>
     <!-- responsive css -->
-    <link rel="stylesheet" href="/css/responsive.css"/>
+    <link rel="stylesheet" th:href="@{css/responsive.css}"/>
     <!-- color css -->
-    <link rel="stylesheet" href="/css/colors.css"/>
+    <link rel="stylesheet" th:href="@{css/colors.css}"/>
     <!-- select bootstrap -->
-    <link rel="stylesheet" href="/css/bootstrap-select.css"/>
+    <link rel="stylesheet" th:href="@{css/bootstrap-select.css}"/>
     <!-- scrollbar css -->
-    <link rel="stylesheet" href="/css/perfect-scrollbar.css"/>
+    <link rel="stylesheet" th:href="@{css/perfect-scrollbar.css}"/>
     <!-- custom css -->
-    <link rel="stylesheet" href="/css/custom.css"/>
+    <link rel="stylesheet" th:href="@{css/custom.css}"/>
     <!-- calendar file css -->
-    <link rel="stylesheet" href="/js/semantic.min.css"/>
+    <link rel="stylesheet" th:href="@{css/semantic.min.css}"/>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -274,9 +274,9 @@
          </span>
         <span class="closeGoodDetail">X</span>
         <div class="goodImg">
-            <span><img alt="" src="images/loader/loading.gif"></span>
+            <span><img alt="" id="skuImg" th:src="@{images/loader/loading.gif}"></span>
             <span class="priceUnit">￥</span>
-            <span class="price">价格：</span>
+            <span class="price" id="price">--</span>
         </div>
         <hr style="color: darkgrey;">
         <div class="goodDetailSpecs">
@@ -285,13 +285,7 @@
                     参数名：
                 </div>
                 <div class="goodDetailSpecItem">
-                    <span><img alt="" src="images/loader/loading.gif"><i>&nbsp;</i><i>银色</i></span>
-                </div>
-                <div class="goodDetailSpecItem">
-                    <span><img alt="" src="images/loader/loading.gif"><i>&nbsp;</i><i>银色</i></span>
-                </div>
-                <div class="goodDetailSpecItem">
-                    <span><img alt="" src="images/loader/loading.gif"><i>&nbsp;</i><i>银色</i></span>
+                    <span><i>银色</i></span>
                 </div>
             </div>
         </div>
@@ -304,22 +298,23 @@
                </span>
             </span>
         </div>
-        <div class="buyNow">立即购买</div>
+        <div class="buyNow" id="buyNow">立即购买</div>
     </div>
 
     <div class="inner_container">
         <!-- right content -->
-        <div id="content">
+        <div id="content" style="padding-left: 25px">
             <!-- topbar -->
-            <div class="topbar">
+            <div class="topbar" style="padding: 0">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <div class="full">
                         <div class="logo_section">
-                            <a href="index.html"><img class="img-responsive" src="/images/logo/logo.png" alt="#"/></a>
+                            <a href="index.html"><img alt="#" class="img-responsive" th:src="@{images/logo/logo.png}"/></a>
                         </div>
                         <div class="right_topbar" style="height: 50px;">
                             <div class="icon_info">
                                 <a class="btn btn-primary" role="button"
+                                   id="myOrders"
                                    style="position: relative; top: 50%; transform: translateY(25%);margin-right: 25px;color: white">
                                     <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;我的订单</a>
                             </div>
@@ -335,7 +330,7 @@
                 </div>
                 <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
                     <div class="icon_info">
-                        <form action="/list" class="navbar-form navbar-left" method="get" role="search">
+                        <form action="shopping" class="navbar-form navbar-left" method="get" role="search">
                             <div class="row">
                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="padding: 0;">
                                     <input class="form-control" name="name" placeholder="商品搜索"
@@ -439,16 +434,17 @@
                 <!-- 单个商品 -->
                 <div class="col-sm-4 col-md-3 col-lg-3 col-xs-6" th:each="spu:${result.spuList}">
                     <div class="thumbnail">
-                        <img alt="..." src="/images/loader/loading.gif" th:src="${spu.image}">
+                        <img alt="..." src="images/loader/loading.gif" th:src="${spu.image}">
                         <div class="caption">
                             <h5 th:text="${#strings.abbreviate(spu.name,23)}">Thumbnail label</h5>
-                            <p th:text="${#strings.abbreviate(#strings.replace(spu.category1Name,'null','')+' '+#strings.replace(spu.category2Name,'null','')+' '+#strings.replace(spu.category3Name,'null','')+' '+spu.name,50)}">
-                                ...</p>
-
+                            <!--                            <p th:text="${#strings.abbreviate(#strings.replace(spu.category1Name,'null','')+' '+#strings.replace(spu.category2Name,'null','')+' '+#strings.replace(spu.category3Name,'null','')+' '+spu.name,50)}">-->
+                            <!--                                ...</p>-->
+                            <p th:text="${#strings.abbreviate(spu.name,50)}"></p>
                             <p>
                             <div>
                                 <span style="display: block;text-align: center">
-                                    <a class="btn btn-primary  buyBtn" role="button">
+                                    <a class="btn btn-primary" role="button"
+                                       th:onclick="|getSpuInfo(${spu.id})|">
                                     <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;购买</a>
                                 </span>
                             </div>
@@ -556,6 +552,7 @@
     </div>
 </div>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script th:src="@{js/myUtil.js}"></script>
 <script>
     $(".buyNumInput").val("1");
     $(".buyNumPlus").click(function () {
@@ -571,23 +568,125 @@
         }
     });
     $(".closeGoodDetail").click(function () {
+        $("#price").html("--")
+        $("#skuImg").attr("src", "images/loader/loading.gif");
         $(".goodDetail").animate({
             bottom: "-600px"
         });
     });
-    $(".buyBtn").click(function () {
-        $(".goodDetail").animate({
-            bottom: "0px"
-        });
-    });
 
-    $(".goodDetailSpecItem span").click(function () {
-        $(this).parent().addClass("choseItem");
-        $(this).parent().prevAll().removeClass("choseItem");
-        $(this).parent().nextAll().removeClass("choseItem");
-        $(this).parent().nextAll().removeClass("choseItem");
-        $(this).parent().parent().nextAll().removeClass("choseItem");
-    });
+    var specCount = 0;
+    var chosedSpuID = 0;
+    var chosedSkuID = 0;
+
+    $("#myOrders").click(function () {
+        window.location.href = "order.html"
+    })
+
+    function getSpuInfo(spuID) {
+        chosedSpuID = spuID;
+        $.ajax({
+            type: "get", //提交的方法
+            url: "/frontApi/skuSearch", //提交的地址
+            data: {
+                "spuID": spuID
+            }, // 序列化表单值
+            async: false,
+            dataType: "json",
+            crossDomain: true,
+            error: function (request) { //失败的话
+                alert("获取商品信息失败，请稍后重试");
+            },
+            success: function (data) { //成功
+                if (data.statusCode != 200) {
+                    pormptBox(2000, data.desc);
+                } else {
+                    var rowDataHtml = "";
+                    specCount = 0;
+                    for (var specName in data.result.specList) {
+                        specCount++;
+                        rowDataHtml += `<div class="goodDetailSpecTitle" paramTitle="` + specName + `">` + specName
+                        for (var j = 0; j < data.result.specList[specName].length; j++) {
+                            rowDataHtml += `<div class="goodDetailSpecItem">
+                                          <span><i paramValue="` + data.result.specList[specName][j] + `">` + data.result.specList[specName][j] + `</i></span>
+                                       </div>`
+                        }
+                        rowDataHtml += `</div>`
+                    }
+                    $(".goodDetailSpec").html(rowDataHtml)
+                }
+                bandParamClick();
+                $(".goodDetail").animate({
+                    bottom: "0px"
+                });
+            }
+        });
+    }
+
+    //参数绑定点击事件
+    function bandParamClick() {
+        $(".goodDetailSpecItem span").click(function () {
+            $(this).parent().addClass("choseItem");
+            $(this).parent().prevAll().removeClass("choseItem");
+            $(this).parent().nextAll().removeClass("choseItem");
+            $(this).parent().nextAll().removeClass("choseItem");
+            $(this).parent().parent().nextAll().removeClass("choseItem");
+            $("#price").html("--");
+            if ($(".choseItem").length == specCount) {
+                getSkuPrice();
+            }
+        });
+    }
+
+    bandParamClick();
+
+    //点击现在购买
+    function getSkuPrice() {
+        var params = {};
+        params["spuID"] = chosedSpuID;
+        for (var i = 0; i < specCount; i++) {
+            key = $(".goodDetailSpecTitle:eq(" + i + ")").attr("paramTitle");
+            value = $(".choseItem:eq(" + i + ") span i").attr("paramValue");
+            params["spec_" + key] = value;
+        }
+        $.ajax({
+            type: "get", //提交的方法
+            url: "/frontApi/skuSearch", //提交的地址
+            data: params, // 序列化表单值
+            async: false,
+            dataType: "json",
+            crossDomain: true,
+            error: function (request) { //失败的话
+                alert("获取商品价格失败，请稍后重试");
+            },
+            success: function (data) { //成功
+                chosedSkuID = data.result.skuList[0].id;
+                $("#price").html(data.result.skuList[0].price);
+                $("#skuImg").attr("src", data.result.skuList[0].image);
+            }
+        });
+    }
+
+    var userID = getCookie("userID");
+    $("#buyNow").click(function () {
+        alert(chosedSkuID);
+        $.ajax({
+            type: "post", //提交的方法
+            url: "/frontApi/order", //提交的地址
+            data: JSON.stringify({
+                "userID": userID,
+                "skuID": chosedSkuID
+            }), // 序列化表单值
+            async: true,
+            contentType: "application/json;charset=UTF-8",
+            error: function (request) { //失败的话
+                alert(JSON.stringify(request))
+            },
+            success: function (data) { //成功
+                alert(JSON.stringify(data))
+            }
+        });
+    })
 </script>
 </body>
 

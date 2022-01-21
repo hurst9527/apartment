@@ -27,9 +27,9 @@ public class Admin implements Serializable{
     @Column(name = "password")
 	private String password;//密码
 
-	@ApiModelProperty(value = "管理员等级   关联admin_grade中的grade字段",required = false)
-    @Column(name = "identity")
-	private String identity;//管理员等级   关联admin_grade中的grade字段
+	@ApiModelProperty(value = "管理员等级   关联admin_grade中的grade字段", required = false)
+    @Column(name = "grade")
+    private String grade;//管理员等级   关联admin_grade中的grade字段
 
 	@ApiModelProperty(value = "职位",required = false)
     @Column(name = "position")
@@ -88,23 +88,25 @@ public class Admin implements Serializable{
 		return password;
 	}
 
-	//set方法
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	//get方法
-	public String getIdentity() {
-		return identity;
-	}
+    //set方法
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	//set方法
-	public void setIdentity(String identity) {
-		this.identity = identity;
-	}
-	//get方法
-	public String getImage() {
-		return image;
-	}
+    //get方法
+    public String getGrade() {
+        return grade;
+    }
+
+    //set方法
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    //get方法
+    public String getImage() {
+        return image;
+    }
 
 	//set方法
 	public void setImage(String image) {
