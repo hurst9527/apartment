@@ -6,7 +6,7 @@ server:
 eureka:
   instance:
 #    hostname: 121.196.146.187   #aliyun
-      hostname: 127.0.0.1
+    hostname: 127.0.0.1
   client:
     register-with-eureka: false #不注册自己
     fetch-registry: false #不拉取服务
